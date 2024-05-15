@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.servin.trainify.ui.login.ui.LoginScreen
+import com.servin.trainify.ui.login.ui.LoginViewModel
 import com.servin.trainify.ui.theme.TrainifyTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrainifyTheme {
                 // A surface container using the 'background' color from the theme
-                LoginScreen()
+                LoginScreen(LoginViewModel())
             }
         }
     }

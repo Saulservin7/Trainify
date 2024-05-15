@@ -56,11 +56,15 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
-   
+    val lifecycle_version = "2.8.0"
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.room:room-runtime:2.4.1")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
+
+    implementation(libs.androidx.lifecycle.runtime)
+  
        
 
         // Retrofit
