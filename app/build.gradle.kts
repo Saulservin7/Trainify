@@ -57,6 +57,16 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     val lifecycle_version = "2.8.0"
+    val roomVersion = "2.6.1"
+    val nav_version="2.7.7"
+    
+    // Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+
 
 
     // ViewModel

@@ -10,13 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8532558c-006b-4adb-adef-2fee013fea18" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/navigation/NavManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/navigation/Screens.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/room/UserDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/room/UsuarioDatabase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/states/UserState.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/register/model/User.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/register/ui/RegisterScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/RegisterViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/UsuariosViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/LoginViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/theme/Color.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +56,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Data Class" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin File" />
+        <option value="Kotlin Object" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -77,6 +99,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.servin.trainify.viewmodel" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.app">

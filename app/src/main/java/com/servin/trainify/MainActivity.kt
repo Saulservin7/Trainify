@@ -3,16 +3,12 @@ package com.servin.trainify
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.servin.trainify.navigation.NavManager
 import com.servin.trainify.ui.login.ui.LoginScreen
-import com.servin.trainify.ui.login.ui.LoginViewModel
+import com.servin.trainify.viewmodel.LoginViewModel
 import com.servin.trainify.ui.theme.TrainifyTheme
+import com.servin.trainify.viewmodel.RegisterViewModel
+import com.servin.trainify.viewmodel.UsuariosViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +16,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrainifyTheme {
                 // A surface container using the 'background' color from the theme
-                LoginScreen(LoginViewModel())
+                val loginViewModel = LoginViewModel()
+                val registerViewModel = RegisterViewModel()
+
+                NavManager(loginViewModel,registerViewModel)
             }
         }
     }

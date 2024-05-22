@@ -1,6 +1,5 @@
 package com.servin.trainify.ui.login.ui
 
-import android.text.BoringLayout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,22 +23,26 @@ import androidx.compose.ui.unit.dp
 import com.servin.trainify.R
 import com.servin.trainify.ui.theme.Red
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.servin.trainify.navigation.Screens
+import com.servin.trainify.viewmodel.LoginViewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(viewModel: LoginViewModel,navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
     ) {
 
-        Login(Modifier.align(Alignment.Center), viewModel)
+        Login(Modifier.align(Alignment.Center), viewModel,navController)
 
     }
 }
 
 @Composable
-fun Login(modifier: Modifier, viewModel: LoginViewModel) {
+fun Login(modifier: Modifier, viewModel: LoginViewModel,navController: NavController) {
 
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
@@ -52,7 +55,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
         Logo()
         EmailTextField(email) { viewModel.onLoginChanged(it, password) }
         PasswordTextField(password) { viewModel.onLoginChanged(email, it) }
-        Buttons(loginEnable) { viewModel.onLoginSelected() }
+        Buttons(loginEnable, { viewModel.onLoginSelected() }, navController)
         ForgotPassword()
 
 
@@ -67,7 +70,7 @@ fun ForgotPassword() {
 
 
 @Composable
-fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit) {
+fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit,navController: NavController) {
     Button(
         onClick = { onLoginChanged() },
         modifier = Modifier
@@ -79,7 +82,7 @@ fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit) {
 
     }
     Button(
-        onClick = { /*TODO*/ }, modifier = Modifier
+        onClick = { navController.navigate(Screens.REGISTER)}, modifier = Modifier
             .fillMaxWidth()
             .padding(top = 20.dp),
         colors = ButtonDefaults.buttonColors(Color(Red.toArgb()))

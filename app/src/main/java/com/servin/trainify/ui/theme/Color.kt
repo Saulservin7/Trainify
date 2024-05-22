@@ -12,3 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 val Red = Color(0xFFC72B54)
 val RedGrey = Color(0xFFC72B54)
+val RedSurface = Color(0xFFCF1856)
