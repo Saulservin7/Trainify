@@ -2,6 +2,7 @@ package com.servin.trainify.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.servin.trainify.ui.register.model.User
 
 class RegisterViewModel : ViewModel(){
 
@@ -28,8 +29,11 @@ class RegisterViewModel : ViewModel(){
         _registerState.value = isValidEmail(email) && isValidPassword(password)
     }
 
-    fun onRegisterSelected() {
-
+    fun onRegisterSelected(firstName: String, lastName: String, email: String, password: String, userViewModel: UsuariosViewModel) {
+        if (isValidEmail(email) && isValidPassword(password)) {
+            val user = User(username = firstName, userlastname = lastName, email = email, password = password)
+            userViewModel.insertUser(user)
+        }
     }
 
     private fun isValidPassword(password: String): Boolean {

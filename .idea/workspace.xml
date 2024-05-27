@@ -10,15 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8532558c-006b-4adb-adef-2fee013fea18" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/navigation/NavManager.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/navigation/Screens.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/room/UserDao.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/room/UsuarioDatabase.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/states/UserState.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/register/model/User.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/register/ui/RegisterScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/RegisterViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/UsuariosViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/sha1-checksums.bin" afterDir="false" />
@@ -34,9 +25,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/login/ui/LoginViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/LoginViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/theme/Color.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/register/ui/RegisterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/ui/register/ui/RegisterScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/RegisterViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/servin/trainify/viewmodel/RegisterViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

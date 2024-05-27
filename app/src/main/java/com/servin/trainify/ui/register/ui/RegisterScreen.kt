@@ -82,7 +82,7 @@ fun Register(navController: NavController,viewModel: RegisterViewModel) {
         Spacer(modifier = Modifier.size(10.dp))
         Password(password){viewModel.onRegisterChanged(firstName, lastName, email, it)}
         Spacer(modifier = Modifier.size(10.dp))
-        RegisterButton(registerState)
+        RegisterButton(registerState,viewModel,firstName,lastName,email,password)
         Spacer(modifier = Modifier.size(10.dp))
         AlreadyAccount(navController)
 
@@ -174,7 +174,7 @@ fun Email(email:String,onEmailChanged:(String) -> Unit){
 }
 
 @Composable
-fun RegisterButton(registerState:Boolean) {
+fun RegisterButton(registerState:Boolean,viewModel: RegisterViewModel,firstName: String,lastName: String, email: String,password:String) {
 
     Button(
         onClick = {},

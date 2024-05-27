@@ -1,6 +1,15 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+
+
+
+
+
+
+
 }
 
 android {
@@ -84,6 +93,13 @@ dependencies {
         // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    //Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    
+
+
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)

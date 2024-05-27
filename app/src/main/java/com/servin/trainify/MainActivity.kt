@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
                 val loginViewModel = LoginViewModel()
                 val registerViewModel = RegisterViewModel()
 
+
                 NavManager(loginViewModel,registerViewModel)
             }
         }
