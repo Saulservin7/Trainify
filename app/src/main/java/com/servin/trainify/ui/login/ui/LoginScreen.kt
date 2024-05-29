@@ -1,6 +1,7 @@
 package com.servin.trainify.ui.login.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,26 +24,28 @@ import androidx.compose.ui.unit.dp
 import com.servin.trainify.R
 import com.servin.trainify.ui.theme.Red
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.servin.trainify.navigation.Screens
 import com.servin.trainify.viewmodel.LoginViewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel,navController: NavController) {
+fun LoginScreen(viewModel: LoginViewModel, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
     ) {
 
-        Login(Modifier.align(Alignment.Center), viewModel,navController)
+        Login(Modifier.align(Alignment.Center), viewModel, navController)
 
     }
 }
 
 @Composable
-fun Login(modifier: Modifier, viewModel: LoginViewModel,navController: NavController) {
+fun Login(modifier: Modifier, viewModel: LoginViewModel, navController: NavController) {
 
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
@@ -57,6 +60,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel,navController: NavContro
         PasswordTextField(password) { viewModel.onLoginChanged(email, it) }
         Buttons(loginEnable, { viewModel.onLoginSelected() }, navController)
         ForgotPassword()
+        GuestLogin(navController)
 
 
     }
@@ -70,7 +74,7 @@ fun ForgotPassword() {
 
 
 @Composable
-fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit,navController: NavController) {
+fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit, navController: NavController) {
     Button(
         onClick = { onLoginChanged() },
         modifier = Modifier
@@ -82,7 +86,7 @@ fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit,navController: NavC
 
     }
     Button(
-        onClick = { navController.navigate(Screens.REGISTER)}, modifier = Modifier
+        onClick = { navController.navigate(Screens.REGISTER) }, modifier = Modifier
             .fillMaxWidth()
             .padding(top = 20.dp),
         colors = ButtonDefaults.buttonColors(Color(Red.toArgb()))
@@ -139,6 +143,18 @@ fun PasswordTextField(password: String, onLoginChanged: (String) -> Unit) {
             .padding(top = 20.dp)
     )
 
+}
+
+@Composable
+fun GuestLogin(navController: NavController) {
+    Text(
+        text = "Continuar como invitado",
+        modifier = Modifier.padding(top = 20.dp).clickable { navController.navigate(Screens.HOME)},
+        color = Color.Black,
+        textDecoration = TextDecoration.Underline,
+        fontWeight = FontWeight.Bold,
+
+    )
 }
 
 

@@ -3,8 +3,11 @@ package com.servin.trainify.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.servin.trainify.ui.register.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel(){
+@HiltViewModel
+class RegisterViewModel  @Inject constructor(): ViewModel(){
 
     private val _firstName = MutableLiveData<String>()
     val firstName: MutableLiveData<String> = _firstName
