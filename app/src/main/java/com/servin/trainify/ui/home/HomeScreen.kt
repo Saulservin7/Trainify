@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -20,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposableTarget
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,26 +32,27 @@ import androidx.navigation.NavController
 import com.servin.trainify.R
 import com.servin.trainify.ui.register.ui.Top
 import com.servin.trainify.ui.theme.Red
+import com.servin.trainify.viewmodel.HomeViewModel
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController,viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(5.dp)
     ) {
-        Home(navController)
+        Home(navController,viewModel)
     }
 }
 
 @Composable
-fun Home(navController: NavController) {
-    TopBar(navController)
+fun Home(navController: NavController,viewModel:HomeViewModel){
+    TopBar(navController,viewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(navController: NavController) {
+fun TopBar(navController: NavController,viewModel:HomeViewModel) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -69,15 +72,21 @@ fun TopBar(navController: NavController) {
             }
         }
     ) { paddingValues ->
-        ExercisesList(paddingValues)
+        ExercisesList(paddingValues,viewModel)
     }
 }
 
 @Composable
-fun ExercisesList(it: PaddingValues) {
+fun ExercisesList(it: PaddingValues, viewModel: HomeViewModel) {
+    // Recoge el flujo como un estado
+    val exercises = viewModel.getAllExercises().collectAsState(initial = emptyList())
+
     LazyColumn(contentPadding = it) {
-        items(10) {
+        items(exercises.value) {
             Row(modifier = Modifier.padding(5.dp)) {
+                // Aquí puedes acceder a las propiedades de 'exercise' para mostrarlas en tu UI
+                Text(text = it.description)
+
                 EditButton()
                 DeleteButton()
             }

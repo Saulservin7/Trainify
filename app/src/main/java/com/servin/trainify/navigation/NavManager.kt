@@ -10,13 +10,14 @@ import com.servin.trainify.ui.home.HomeScreen
 import com.servin.trainify.ui.login.ui.LoginScreen
 import com.servin.trainify.ui.register.ui.RegisterScreen
 import com.servin.trainify.viewmodel.ExerciseViewModel
+import com.servin.trainify.viewmodel.HomeViewModel
 import com.servin.trainify.viewmodel.LoginViewModel
 import com.servin.trainify.viewmodel.RegisterViewModel
 import com.servin.trainify.viewmodel.UsuariosViewModel
 
 
 @Composable
-fun NavManager(loginViewModel: LoginViewModel,registerViewModel: RegisterViewModel,exerciseViewModel: ExerciseViewModel) {
+fun NavManager(loginViewModel: LoginViewModel,registerViewModel: RegisterViewModel,exerciseViewModel: ExerciseViewModel,homeViewModel: HomeViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.LOGIN) {
@@ -27,7 +28,7 @@ fun NavManager(loginViewModel: LoginViewModel,registerViewModel: RegisterViewMod
             RegisterScreen(navController,registerViewModel)
         }
         composable(Screens.HOME) {
-            HomeScreen(navController )
+            HomeScreen(navController,homeViewModel)
         }
         composable(Screens.EXERCISES) {
             AddExerciseScreen(exerciseViewModel)

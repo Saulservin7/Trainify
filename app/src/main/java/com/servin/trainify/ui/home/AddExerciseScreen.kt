@@ -57,7 +57,7 @@ fun AddExercise(exerciseViewModel: ExerciseViewModel) {
         TitleTextField(title){ exerciseViewModel.onExerciseChanged(it, description, image) }
         DescriptionTextField(description){ exerciseViewModel.onExerciseChanged(title, it, image) }
         ImageCard()
-        AddButton()
+        AddButton(exerciseViewModel)
 
     }
 
@@ -108,9 +108,9 @@ fun ImageCard(){
 }
 
 @Composable
-fun AddButton(){
+fun AddButton(viewModel: ExerciseViewModel){
     Row(horizontalArrangement = Arrangement.Center,modifier=Modifier.fillMaxWidth()) {
-        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color(Red.toArgb())), modifier = Modifier) {
+        Button(onClick = { viewModel.addExercise() }, colors = ButtonDefaults.buttonColors(Color(Red.toArgb())), modifier = Modifier) {
 
             Text(text = "Añadir Ejercicio")
 
