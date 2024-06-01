@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.servin.trainify.R
-import com.servin.trainify.ui.theme.Red
+import com.servin.trainify.ui.theme.RedPrimary
 import com.servin.trainify.ui.theme.RedSurface
 import com.servin.trainify.viewmodel.RegisterViewModel
 import com.servin.trainify.viewmodel.UsuariosViewModel
@@ -178,7 +178,7 @@ fun RegisterButton(registerState:Boolean,viewModel: RegisterViewModel,firstName:
 
     Button(
         onClick = {},
-        colors = ButtonDefaults.buttonColors(Color(Red.toArgb())),
+        colors = ButtonDefaults.buttonColors(RedPrimary),
         enabled = registerState
     ) {
         Text(text = "Registrarse")

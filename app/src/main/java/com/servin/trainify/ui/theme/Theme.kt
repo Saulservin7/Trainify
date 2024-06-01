@@ -23,9 +23,9 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Red,
+    primary = RedPrimary,
     secondary = Color.Red,
-    tertiary = Red
+    tertiary = RedPrimary
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

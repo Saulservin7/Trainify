@@ -28,9 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-
 import com.servin.trainify.R
-import com.servin.trainify.ui.theme.Red
+import com.servin.trainify.ui.theme.RedPrimary
 import com.servin.trainify.viewmodel.ExerciseViewModel
 
 @Composable
@@ -110,7 +109,8 @@ fun ImageCard(){
 @Composable
 fun AddButton(viewModel: ExerciseViewModel){
     Row(horizontalArrangement = Arrangement.Center,modifier=Modifier.fillMaxWidth()) {
-        Button(onClick = { viewModel.addExercise() }, colors = ButtonDefaults.buttonColors(Color(Red.toArgb())), modifier = Modifier) {
+        Button(onClick = { viewModel.addExercise() }, colors = ButtonDefaults.buttonColors(
+            RedPrimary), modifier = Modifier) {
 
             Text(text = "Añadir Ejercicio")
 

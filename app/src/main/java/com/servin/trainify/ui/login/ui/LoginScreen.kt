@@ -22,13 +22,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.servin.trainify.R
-import com.servin.trainify.ui.theme.Red
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.servin.trainify.navigation.Screens
+import com.servin.trainify.ui.theme.RedPrimary
 import com.servin.trainify.viewmodel.LoginViewModel
 
 @Composable
@@ -80,7 +80,7 @@ fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit, navController: Nav
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 50.dp),
-        colors = ButtonDefaults.buttonColors(Color(Red.toArgb())), enabled = loginEnable
+        colors = ButtonDefaults.buttonColors(RedPrimary), enabled = loginEnable
     ) {
         Text(text = "Iniciar Sesión")
 
@@ -89,7 +89,7 @@ fun Buttons(loginEnable: Boolean, onLoginChanged: () -> Unit, navController: Nav
         onClick = { navController.navigate(Screens.REGISTER) }, modifier = Modifier
             .fillMaxWidth()
             .padding(top = 20.dp),
-        colors = ButtonDefaults.buttonColors(Color(Red.toArgb()))
+        colors = ButtonDefaults.buttonColors(RedPrimary)
     ) {
         Text(text = "Registrarse")
 
