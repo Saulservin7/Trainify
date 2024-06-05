@@ -1,6 +1,7 @@
 package com.servin.trainify.ui.register.ui
 
 import android.widget.Button
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -30,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -39,6 +42,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.servin.trainify.R
+import com.servin.trainify.model.DataResponse
+import com.servin.trainify.navigation.Screens
 import com.servin.trainify.ui.theme.RedPrimary
 import com.servin.trainify.ui.theme.RedSurface
 import com.servin.trainify.viewmodel.RegisterViewModel
@@ -85,6 +90,7 @@ fun Register(navController: NavController,viewModel: RegisterViewModel) {
         RegisterButton(registerState,viewModel,firstName,lastName,email,password)
         Spacer(modifier = Modifier.size(10.dp))
         AlreadyAccount(navController)
+        LoadingRegister(viewModel,navController)
 
     }
 
@@ -177,7 +183,7 @@ fun Email(email:String,onEmailChanged:(String) -> Unit){
 fun RegisterButton(registerState:Boolean,viewModel: RegisterViewModel,firstName: String,lastName: String, email: String,password:String) {
 
     Button(
-        onClick = {},
+        onClick = {viewModel.onRegisterSelected(email,password)},
         colors = ButtonDefaults.buttonColors(RedPrimary),
         enabled = registerState
     ) {
@@ -212,6 +218,27 @@ fun Password(password:String, onPasswordChanged:(String) -> Unit){
             .padding(end = 30.dp)
     )
 
+}
+
+@Composable
+fun LoadingRegister(viewModel: RegisterViewModel,navController: NavController){
+    when(viewModel.stateRegister) {
+        is DataResponse.Success -> {
+            navController.navigate(Screens.HOME)
+        }
+        is DataResponse.Error -> {
+            Toast.makeText(LocalContext.current,"Error",Toast.LENGTH_SHORT).show()
+
+        }
+        DataResponse.Loading -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        else -> {
+            // Do nothing
+        }
+    }
 }
 
 

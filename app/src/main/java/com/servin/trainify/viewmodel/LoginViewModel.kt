@@ -1,13 +1,22 @@
 package com.servin.trainify.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.auth.FirebaseUser
+import com.servin.trainify.domain.usecase.AuthUseCase
+import com.servin.trainify.model.DataResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel(){
+class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel(){
 
 
     private val _email = MutableLiveData<String>()
@@ -19,6 +28,23 @@ class LoginViewModel @Inject constructor() : ViewModel(){
 
     private val _loginState = MutableLiveData<Boolean>()
     val loginState: LiveData<Boolean> = _loginState
+
+
+
+
+
+    var stateLogin by mutableStateOf<DataResponse<FirebaseUser>?>(null)
+
+    init {
+        viewModelScope.launch {
+            val currentUser = authUseCase.getCurrentUser()
+            if (currentUser != null){
+                stateLogin = DataResponse.Success(currentUser)
+            }
+        }
+    }
+
+
 
     fun onLoginChanged(email: String, password: String) {
 
@@ -36,7 +62,10 @@ class LoginViewModel @Inject constructor() : ViewModel(){
         return email.contains("@")
     }
 
-    fun onLoginSelected() {
+    fun onLoginSelected()=viewModelScope.launch{
+        stateLogin=DataResponse.Loading
+        stateLogin = authUseCase.login(email.value!!,password.value!!)
+
 
 
     }

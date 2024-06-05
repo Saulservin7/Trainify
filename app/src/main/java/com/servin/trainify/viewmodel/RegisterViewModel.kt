@@ -1,13 +1,21 @@
 package com.servin.trainify.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseUser
+import com.servin.trainify.domain.usecase.AuthUseCase
+import com.servin.trainify.model.DataResponse
 import com.servin.trainify.ui.register.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel  @Inject constructor(): ViewModel(){
+class RegisterViewModel  @Inject constructor(private val authUseCase: AuthUseCase): ViewModel(){
 
     private val _firstName = MutableLiveData<String>()
     val firstName: MutableLiveData<String> = _firstName
@@ -24,6 +32,10 @@ class RegisterViewModel  @Inject constructor(): ViewModel(){
     private val _registerState = MutableLiveData<Boolean>()
     val registerState: MutableLiveData<Boolean> = _registerState
 
+    var stateRegister by mutableStateOf<DataResponse<FirebaseUser>?>(null)
+
+
+
     fun onRegisterChanged(firstName: String, lastName: String, email: String, password: String) {
         _firstName.value = firstName
         _lastName.value = lastName
@@ -32,10 +44,10 @@ class RegisterViewModel  @Inject constructor(): ViewModel(){
         _registerState.value = isValidEmail(email) && isValidPassword(password)
     }
 
-    fun onRegisterSelected(firstName: String, lastName: String, email: String, password: String, userViewModel: UsuariosViewModel) {
+     fun onRegisterSelected(email: String, password: String)=viewModelScope.launch {
         if (isValidEmail(email) && isValidPassword(password)) {
-            val user = User(username = firstName, userlastname = lastName, email = email, password = password)
-            userViewModel.insertUser(user)
+            stateRegister = DataResponse.Loading
+            stateRegister = authUseCase.register(email,password)
         }
     }
 
