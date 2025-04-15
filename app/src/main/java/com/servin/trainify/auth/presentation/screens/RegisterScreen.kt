@@ -6,14 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,21 +17,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.servin.trainify.auth.presentation.components.FieldForm
 import com.servin.trainify.auth.presentation.viewmodel.AuthState
 import com.servin.trainify.auth.presentation.viewmodel.AuthViewModel
 import com.servin.trainify.ui.theme.BluePrimary
-import com.servin.trainify.ui.theme.BlueSecondary
 
 @Composable
 fun RegisterScreen(
@@ -53,6 +45,9 @@ fun RegisterScreen(
     val passwordError by viewModel.errorPassword.collectAsState()
     val confirmPasswordError by viewModel.errorConfirmPassword.collectAsState()
     val authState by viewModel.authstate.collectAsState()
+    val passwordHidden by viewModel.passwordHiddenState.collectAsState()
+    val confirmPasswordHidden by viewModel.confirmPasswordHiddenState.collectAsState()
+
 
     Box(
         modifier = Modifier
@@ -102,16 +97,25 @@ fun RegisterScreen(
                     }
                     .fillMaxSize()
             ) {
+
                 FieldForm(
                     "Nombre", "Escribe tu nombre", name, { viewModel.setName(it) },
-                    isError = nameError
+                    isError = nameError,
+                    errorDescription = "Tu nombre no debe contener números ni caracteres especiales",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp)
                 )
                 FieldForm(
                     "Correo Electronico",
                     "Escribe tu correo electronico",
                     email,
                     { viewModel.setEmail(it) },
-                    isError = emailError
+                    isError = emailError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    errorDescription = "El correo electronico debe ser gmail,outlook o hotmail"
                 )
                 FieldForm(
                     "Contraseña",
@@ -119,7 +123,13 @@ fun RegisterScreen(
                     password,
                     { viewModel.setPassword(it) },
                     isError = passwordError,
-                    isPassword = true
+                    isPassword = true,
+                    passwordHidden = passwordHidden,
+                    onPasswordVisibilityToggle = { viewModel.togglePasswordVisibility() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    errorDescription = "La contraseña debe tener al menos 8 caracteres"
                 )
 
                 FieldForm(
@@ -128,10 +138,16 @@ fun RegisterScreen(
                     confirmPassword,
                     { viewModel.confirmPassword(it) },
                     isError = confirmPasswordError,
-                    isPassword = true
+                    isPassword = true,
+                    passwordHidden = confirmPasswordHidden,
+                    onPasswordVisibilityToggle = { viewModel.toggleConfirmPasswordVisibility() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    errorDescription = "Las contraseñas no coinciden"
                 )
                 Button(
-                    onClick = { viewModel.register(email, password) },
+                    onClick = { viewModel.register(email, password,name) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp),
@@ -165,9 +181,10 @@ fun RegisterScreen(
                         bottom.linkTo(parent.bottom, margin = 16.dp)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                    }, shape = RectangleShape,
+                    },
+                shape = RectangleShape,
 
-            ) {
+                ) {
                 Text("Iniciar Sesión", fontSize = 16.sp, color = Color.White)
             }
 
@@ -185,28 +202,6 @@ fun RegisterScreen(
 }
 
 
-@Composable
-fun FieldForm(
-    title: String,
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    isError: Boolean = false,
-    isPassword: Boolean = false
-) {
-    Text(text = title, modifier = Modifier.padding(bottom = 10.dp))
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        isError = isError,
-        visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 20.dp),
-        textStyle = if (isError) TextStyle(color = Color.Red) else TextStyle.Default
-    )
-}
+
 
 

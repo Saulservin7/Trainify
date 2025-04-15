@@ -4,11 +4,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.servin.trainify.auth.data.AuthRepositoryImpl
 import com.servin.trainify.auth.domain.repository.AuthRepository
-import com.servin.trainify.auth.domain.usecase.LoginUseCase
-import com.servin.trainify.auth.domain.usecase.RegisterUseCase
+
 import com.servin.trainify.data.repository.ExerciseRepositoryImpl
 import com.servin.trainify.domain.repository.CategoryRepository
 import com.servin.trainify.domain.repository.ExerciseRepository
+import com.servin.trainify.navigation.NavigationManager
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +31,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideAuthRepository(auth: FirebaseAuth): AuthRepository {
-        return AuthRepositoryImpl(auth) // Usa tu implementación
+    fun provideAuthRepository(auth: FirebaseAuth,firestore: FirebaseFirestore): AuthRepository {
+        return AuthRepositoryImpl(auth,firestore) // Usa tu implementación
     }
 
     @Provides
@@ -44,6 +45,10 @@ object AppModule {
     @Singleton
     fun provideCategoryRepository(): CategoryRepository = CategoryRepository()
 
+
+    @Provides
+    @Singleton
+    fun provideNavigationManager(): NavigationManager = NavigationManager()
 
 }
 

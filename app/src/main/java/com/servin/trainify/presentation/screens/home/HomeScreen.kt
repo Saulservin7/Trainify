@@ -62,8 +62,7 @@ import com.servin.trainify.ui.theme.gradient
 fun HomeScreen(
     onLogoutClick: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController(),
-    
+
 ) {
 
     val authState by viewModel.authstate.collectAsState()
@@ -74,12 +73,7 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(bottomBar = { BottomBar(navController) }) {
-
-        HomeContent()
-
-
-    }
+   HomeContent()
 
 
 }
@@ -92,6 +86,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel()) {
             .fillMaxSize()
             .padding(top = 20.dp, start = 20.dp, end = 20.dp)
     ) {
+        val userName = viewModel.userData.collectAsState()
         val (title, iconTitle, cardProgress, rowButtons, titleExercise, exerciseCards, addExercise) = createRefs()
 
         Icon(
@@ -106,7 +101,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel()) {
                 .size(25.dp), tint = BluePrimary
         )
         Text(
-            text = "WELCOME BACK,SERVIN",
+            text = "WELCOME BACK,${userName.value?.name?.uppercase()}",
             modifier = Modifier.constrainAs(title) {
                 top.linkTo(iconTitle.top)
                 start.linkTo(iconTitle.end)

@@ -11,9 +11,10 @@ class RegisterUseCase @Inject constructor(
 
     suspend operator fun invoke(
         email: String,
-        password: String
+        password: String,
+        name: String
     ): Result<User> {
-        return authRepository.register(email,password)
+        return authRepository.register(email,password,name)
 
     }
 }

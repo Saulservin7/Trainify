@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android.gradle.plugin)
+    alias(libs.plugins.serialization)
 
 }
 
@@ -55,6 +56,9 @@ dependencies {
 
     //navigation compose
     implementation(libs.navigation.compose)
+
+    //serialization
+    implementation(libs.kotlinx.serialization.json)
 
 
 

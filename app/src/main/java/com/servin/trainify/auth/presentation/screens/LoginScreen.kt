@@ -2,15 +2,12 @@ package com.servin.trainify.auth.presentation.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.servin.trainify.R
+import com.servin.trainify.auth.presentation.components.FieldForm
 import com.servin.trainify.auth.presentation.viewmodel.AuthState
 import com.servin.trainify.auth.presentation.viewmodel.AuthViewModel
 
@@ -40,13 +37,14 @@ fun LoginScreen(
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     val authState by viewModel.authstate.collectAsState()
+    val passwordHidden by viewModel.passwordHiddenState.collectAsState()
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 20.dp) // Padding horizontal general
 
     ) {
-        val (logo, emailTextField, passwordTextField, login, newUser, guideline) = createRefs()
+        val (logo, emailTextField, passwordTextField, login, newUser, errorText) = createRefs()
 
         // Guía vertical para centrado (50% de la altura)
         val topLine = createGuidelineFromTop(0.15f)
@@ -65,11 +63,12 @@ fun LoginScreen(
                 }
         )
 
+
         // Campos de texto centrados
-         OutlinedTextField(
+         FieldForm(
             value = email,
             onValueChange = { viewModel.setEmail(it) },
-            label = { Text("Correo electrónico") },
+            label = "Correo electrónico",
             modifier = Modifier
                 .fillMaxWidth()
                 .constrainAs(emailTextField) {
@@ -79,18 +78,34 @@ fun LoginScreen(
                 }
         )
 
-        OutlinedTextField(
+        FieldForm(
             value = password,
             onValueChange = { viewModel.setPassword(it) },
-            label = { Text("Contraseña") },
+            label = "Contraseña",
             modifier = Modifier
                 .fillMaxWidth()
                 .constrainAs(passwordTextField) {
                     top.linkTo(emailTextField.bottom, margin = 24.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }
+                },
+            isPassword = true,
+            passwordHidden = passwordHidden,
+            onPasswordVisibilityToggle = {viewModel.togglePasswordVisibility()}
         )
+        if (authState is AuthState.Error) {
+            Text(
+                text = "El correo o la contraseña son incorrectos",
+                color = Color.Red,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .constrainAs(errorText) {
+                        top.linkTo(passwordTextField.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
+        }
 
         // Botón anclado a la parte inferior
         Button(
@@ -123,6 +138,8 @@ fun LoginScreen(
         if (authState is AuthState.Authenticated) {
             onLoginClick()
         }
+
+
     }
 }
 

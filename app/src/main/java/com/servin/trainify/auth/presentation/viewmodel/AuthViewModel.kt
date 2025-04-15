@@ -9,6 +9,8 @@ import com.servin.trainify.auth.domain.repository.AuthRepository
 import com.servin.trainify.auth.domain.usecase.LoginUseCase
 import com.servin.trainify.auth.domain.usecase.LogoutUseCase
 import com.servin.trainify.auth.domain.usecase.RegisterUseCase
+
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,8 +23,11 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val registerUseCase: RegisterUseCase,
     private val loginUseCase: LoginUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    //private val navigationManager: NavigationManager
 ) : ViewModel() {
+
+
 
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
@@ -49,6 +54,13 @@ class AuthViewModel @Inject constructor(
     private val _authstate = MutableStateFlow<AuthState>(AuthState.Initial)
     val authstate: StateFlow<AuthState> = _authstate
 
+    private val passwordHidden = MutableStateFlow(true)
+    val passwordHiddenState: StateFlow<Boolean> = passwordHidden
+
+    private val confirmPasswordHidden = MutableStateFlow(true)
+    val confirmPasswordHiddenState: StateFlow<Boolean> = confirmPasswordHidden
+
+
 
     init {
         checkUser()
@@ -63,7 +75,7 @@ class AuthViewModel @Inject constructor(
 
     fun setEmail(email: String) {
         _email.value = email
-        _errorMail.value = !email.matches(Regex("^[a-zA-Z0-9+_.-]+@gmail.com+$"))
+       _errorMail.value = !email.matches(Regex("^[a-zA-Z0-9+_.-]+@(gmail|outlook|hotmail)\\.com$"))
     }
 
     fun setPassword(password: String) {
@@ -76,18 +88,27 @@ class AuthViewModel @Inject constructor(
         _errorConfirmPassword.value = confirmPassword != _password.value
     }
 
+    fun togglePasswordVisibility() {
+        passwordHidden.value = !passwordHidden.value
+    }
+    fun toggleConfirmPasswordVisibility() {
+        confirmPasswordHidden.value = !confirmPasswordHidden.value
+    }
+
     fun checkUser() {
         viewModelScope.launch {
             authRepository.getCurrentUser()?.let { user ->
                 _authstate.value = AuthState.Authenticated(user)
+                // Elimina la navegación directa desde aquí
             }
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-             logoutUseCase()
+            logoutUseCase()
             _authstate.value = AuthState.Unauthenticated
+            //navigationManager.navigate(Routes.Login.route) // Redirección a login
         }
     }
 
@@ -97,8 +118,8 @@ class AuthViewModel @Inject constructor(
             when (val result = loginUseCase(email, password)) {
                 is Result.Success -> {
                     _authstate.value = AuthState.Authenticated(result.data)
+                    // Elimina navigationManager.navigate()
                 }
-
                 is Result.Error<*> -> {
                     _authstate.value = AuthState.Error(result.message)
                 }
@@ -106,21 +127,23 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun register(email: String, password: String) {
-
+    fun register(email: String, password: String,name: String) {
         if (_errorName.value || _errorMail.value || _errorPassword.value || _errorConfirmPassword.value) {
             _authstate.value = AuthState.Error("Please correct the errors in the form")
             return
         }
         viewModelScope.launch {
             _authstate.value = AuthState.Loading
-            when (val result = registerUseCase(email, password)) {
+            when (val result = registerUseCase(email, password,name)) {
                 is Result.Success -> {
                     _authstate.value = AuthState.Authenticated(result.data)
+
                     Log.d("AuthViewModel", "register: ${result.data}")
                 }
+                is Result.Error<*> -> {
+                    Log.d("AuthViewModel", "register: ${result.message}")
 
-                is Result.Error<*> -> Log.d("AuthViewModel", "register: ${result.message}")
+                }
             }
         }
     }
