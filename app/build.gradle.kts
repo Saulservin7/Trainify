@@ -17,8 +17,8 @@ android {
         applicationId = "com.servin.trainify"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,6 +51,8 @@ dependencies {
     //Dagger Hilt
     implementation(libs.dagger.hilt.android)
     implementation(libs.firebase.firestore)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.junit)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
@@ -59,6 +61,17 @@ dependencies {
 
     //serialization
     implementation(libs.kotlinx.serialization.json)
+
+    //mockk
+    testImplementation(libs.mockk)
+
+    //coroutines
+    testImplementation(libs.coroutines.test)
+
+    //turbine
+    testImplementation(libs.turbine)
+
+    testImplementation(libs.androidx.arch.core.testing)
 
 
 
@@ -84,4 +97,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(kotlin("test"))
 }

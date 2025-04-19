@@ -40,7 +40,6 @@ class HomeViewModel @Inject constructor(
     private fun loadUserData(){
         viewModelScope.launch {
             _userData.value = getUserData()
-
         }
     }
 }

@@ -10,7 +10,6 @@ import com.servin.trainify.auth.domain.usecase.LoginUseCase
 import com.servin.trainify.auth.domain.usecase.LogoutUseCase
 import com.servin.trainify.auth.domain.usecase.RegisterUseCase
 
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

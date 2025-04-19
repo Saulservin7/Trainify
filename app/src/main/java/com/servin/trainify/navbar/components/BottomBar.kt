@@ -49,13 +49,13 @@ fun BottomBar(
         tonalElevation = 100.dp
     ) {
         BottomBarItem.entries.forEach { destination ->
-            val isSelected = currentRoute == destination.pattern
-            Log.d("BottomBar", "Current route: $currentRoute, Destination: ${destination.route}, Is selected: $isSelected")
+            val isSelected = currentRoute == destination.title
+            Log.d("BottomBar", "Current route: $currentRoute, Destination: ${destination.destination}, Is selected: $isSelected")
 
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {
-                    navController.navigate(destination.route) {
+                    navController.navigate(destination.destination.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }

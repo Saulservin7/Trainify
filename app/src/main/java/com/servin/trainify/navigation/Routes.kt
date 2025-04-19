@@ -1,52 +1,42 @@
 package com.servin.trainify.navigation
-
-
 import com.servin.trainify.R
-import kotlinx.serialization.Serializable
 
-@Serializable
-object LoginDestination
 
-@Serializable
-object RegisterDestination
 
-@Serializable
-object HomeDestination
+sealed class AppDestination(val route: String){
+    object Home : AppDestination("home")
+    object Profile : AppDestination("profile")
+    object Settings : AppDestination("settings")
+    object Login : AppDestination("login")
+    object Register : AppDestination("register")
+}
 
-@Serializable
-object ProfileDestination
-
-@Serializable
-object SettingsDestination
-
+// navigation/BottomBarItem.kt
 sealed class BottomBarItem(
-    val route: Any, // Usamos los objetos serializables directamente
+    val destination: AppDestination,  // Usamos la clase sellada
     val title: String,
-    val pattern: String,
     val icon: Int
 ) {
     object Home : BottomBarItem(
-        route = HomeDestination,
+        destination = AppDestination.Home,
         title = "Inicio",
-        icon = R.drawable.home,
-        pattern = "homedestination"
+        icon = R.drawable.home
     )
 
     object Profile : BottomBarItem(
-        route = ProfileDestination,
+        destination = AppDestination.Profile,
         title = "Perfil",
-        icon = R.drawable.profile,
-        pattern = "profiledestination"
+        icon = R.drawable.profile
     )
 
     object Settings : BottomBarItem(
-        route = SettingsDestination,
+        destination = AppDestination.Settings,
         title = "Configuración",
-        icon = R.drawable.settings,
-        pattern = "settingsdestination"
+        icon = R.drawable.settings
     )
 
     companion object {
         val entries = listOf(Home, Profile, Settings)
     }
+
 }

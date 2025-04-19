@@ -1,14 +1,17 @@
 package com.servin.trainify.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.servin.trainify.auth.presentation.screens.LoginScreen
 import com.servin.trainify.auth.presentation.screens.RegisterScreen
 import com.servin.trainify.navbar.components.BottomBar
@@ -16,61 +19,56 @@ import com.servin.trainify.presentation.screens.home.HomeScreen
 import com.servin.trainify.presentation.screens.profile.ProfileScreen
 import com.servin.trainify.presentation.screens.settings.SettingsScreen
 
-@Composable
-fun NavigationWrapper(
 
-) {
+// navigation/NavigationWrapper.kt
+// navigation/NavigationWrapper.kt
+@Composable
+fun NavigationWrapper() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    // Obtener la ruta actual
-    val currentRoute = navBackStackEntry?.destination?.route?.substringAfterLast("/")
-
-    // Definir rutas donde debe aparecer el BottomBar
-    val bottomBarRoutes = listOf(
-        HomeDestination::class.simpleName,
-        ProfileDestination::class.simpleName,
-        SettingsDestination::class.simpleName
-    )
+    val currentRoute = navBackStackEntry?.destination?.route
+    val bottomBarRoutes = BottomBarItem.entries.map { it.destination.route }
 
     Scaffold(
         bottomBar = {
-
             if (currentRoute in bottomBarRoutes) {
                 BottomBar(navController)
             }
         }
     ) { innerPadding ->
         NavHost(
-            navController,
-            startDestination = LoginDestination,
+            navController = navController,
+            startDestination = AppDestination.Login.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable<LoginDestination> {
+            composable(AppDestination.Login.route) {
                 LoginScreen(
-                    onRegisterClick = { navController.navigate(RegisterDestination) },
-                    onLoginClick = { navController.navigate(HomeDestination) }
-                )
-            }
-            composable<RegisterDestination> {
-                RegisterScreen(
-                    onLoginClick = { navController.navigate(LoginDestination) },
-                    onRegisterSuccess = { navController.navigate(HomeDestination) }
-                )
-            }
-            composable<HomeDestination> {
-                HomeScreen(
-                    onLogoutClick = { navController.navigate(LoginDestination) }
+                    onRegisterClick = { navController.navigate(AppDestination.Register.route) },
+                    onLoginClick = { navController.navigate(AppDestination.Home.route) }
                 )
             }
 
-            composable <ProfileDestination>{
+            composable(AppDestination.Register.route) {
+                RegisterScreen(
+                    onLoginClick = { navController.navigate(AppDestination.Login.route) },
+                    onRegisterSuccess = { navController.navigate(AppDestination.Home.route) }
+                )
+            }
+
+            composable(AppDestination.Home.route) {
+                HomeScreen(
+                    onLogoutClick = { navController.navigate(AppDestination.Login.route) }
+                )
+            }
+
+            composable(AppDestination.Profile.route) {
                 ProfileScreen()
             }
-            composable<SettingsDestination>{
+
+            composable(AppDestination.Settings.route) {
                 SettingsScreen()
             }
         }
     }
 }
-
