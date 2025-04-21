@@ -8,6 +8,9 @@ import com.servin.trainify.data.model.Exercise
 import com.servin.trainify.domain.repository.ExerciseRepository
 import com.servin.trainify.domain.usecase.AddExerciseUseCase
 import com.servin.trainify.domain.usecase.GetExercisesUseCase
+import com.servin.trainify.profile.domain.repository.ProfileRepository
+import com.servin.trainify.profile.usecase.GetUserProfile
+import com.servin.trainify.profile.usecase.UpdateUserProfile
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,6 +44,16 @@ object UseCaseModule {
     @Provides
     fun provideGetExerciseUseCase(exerciseRepository: ExerciseRepository): GetExercisesUseCase {
         return GetExercisesUseCase(exerciseRepository)
+    }
+
+    @Provides
+    fun provideGetProfileUseCase(profileRepository: ProfileRepository): GetUserProfile {
+        return GetUserProfile(profileRepository)
+    }
+
+    @Provides
+    fun provideUpdateProfileUseCase(profileRepository: ProfileRepository): UpdateUserProfile {
+        return UpdateUserProfile(profileRepository)
     }
 
 }

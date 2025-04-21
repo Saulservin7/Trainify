@@ -9,6 +9,8 @@ import com.servin.trainify.data.repository.ExerciseRepositoryImpl
 import com.servin.trainify.domain.repository.CategoryRepository
 import com.servin.trainify.domain.repository.ExerciseRepository
 import com.servin.trainify.navigation.NavigationManager
+import com.servin.trainify.profile.data.ProfileRepositoryImp
+import com.servin.trainify.profile.domain.repository.ProfileRepository
 
 import dagger.Module
 import dagger.Provides
@@ -31,8 +33,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideAuthRepository(auth: FirebaseAuth,firestore: FirebaseFirestore): AuthRepository {
-        return AuthRepositoryImpl(auth,firestore) // Usa tu implementación
+    fun provideAuthRepository(auth: FirebaseAuth, firestore: FirebaseFirestore): AuthRepository {
+        return AuthRepositoryImpl(auth, firestore) // Usa tu implementación
     }
 
     @Provides
@@ -43,7 +45,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCategoryRepository(): CategoryRepository = CategoryRepository()
+    fun provideCategoryRepository(
+
+    ): CategoryRepository = CategoryRepository()
+
+    @Provides
+    @Singleton
+    fun provideProfileRepository(
+        auth: FirebaseAuth,
+        firestore: FirebaseFirestore
+    ): ProfileRepository {
+        return ProfileRepositoryImp(auth, firestore)
+    }
 
 
     @Provides

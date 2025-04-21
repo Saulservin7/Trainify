@@ -16,8 +16,10 @@ import com.servin.trainify.auth.presentation.screens.LoginScreen
 import com.servin.trainify.auth.presentation.screens.RegisterScreen
 import com.servin.trainify.navbar.components.BottomBar
 import com.servin.trainify.presentation.screens.home.HomeScreen
-import com.servin.trainify.presentation.screens.profile.ProfileScreen
+
 import com.servin.trainify.presentation.screens.settings.SettingsScreen
+import com.servin.trainify.profile.presentation.screens.EditProfileScreen
+import com.servin.trainify.profile.presentation.screens.ProfileScreen
 
 
 // navigation/NavigationWrapper.kt
@@ -63,11 +65,17 @@ fun NavigationWrapper() {
             }
 
             composable(AppDestination.Profile.route) {
-                ProfileScreen()
+               ProfileScreen(
+                    onEditProfileClick = { navController.navigate(AppDestination.EditProfile.route) },
+               )
             }
 
             composable(AppDestination.Settings.route) {
                 SettingsScreen()
+            }
+
+            composable(AppDestination.EditProfile.route) {
+                EditProfileScreen()
             }
         }
     }

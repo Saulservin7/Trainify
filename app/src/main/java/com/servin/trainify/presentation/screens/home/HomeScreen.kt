@@ -63,7 +63,7 @@ fun HomeScreen(
     onLogoutClick: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 
-) {
+    ) {
 
     val authState by viewModel.authstate.collectAsState()
 
@@ -73,7 +73,7 @@ fun HomeScreen(
         }
     }
 
-   HomeContent()
+    HomeContent()
 
 
 }
@@ -197,7 +197,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel()) {
                 fontSize = 16.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.clickable {  }
+                modifier = Modifier.clickable { }
             )
         }
 

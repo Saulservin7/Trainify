@@ -9,6 +9,7 @@ sealed class AppDestination(val route: String){
     object Settings : AppDestination("settings")
     object Login : AppDestination("login")
     object Register : AppDestination("register")
+    object EditProfile : AppDestination("edit_profile")
 }
 
 // navigation/BottomBarItem.kt
