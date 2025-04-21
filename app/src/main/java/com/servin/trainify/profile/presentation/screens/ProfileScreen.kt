@@ -1,7 +1,15 @@
 package com.servin.trainify.profile.presentation.screens
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +32,8 @@ import com.servin.trainify.presentation.components.ProfilePhoto
 import com.servin.trainify.presentation.components.TitleScreen
 import com.servin.trainify.presentation.components.UserInformation
 import com.servin.trainify.profile.ProfileState
+import coil3.compose.rememberAsyncImagePainter
+import com.servin.trainify.R
 import com.servin.trainify.profile.presentation.viewmodel.ProfileViewModel
 
 @Composable
@@ -49,6 +60,17 @@ fun ProfileContent(
 
 
     val isDataComplete = viewModel.isCompleteData.collectAsState()
+    val photoUrl = viewModel.photoUrl.collectAsState()
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            uri?.let { viewModel.uploadPhoto(it) }
+        }
+    )
+
+
+
+
     val buttonText = if (!isDataComplete.value) {
         "Completar perfil"
     } else {
@@ -86,13 +108,17 @@ fun ProfileContent(
 
             )
 
+        val photo = photoUrl.value
+
+
         ProfilePhoto(
-            modifier = Modifier
-                .constrainAs(profilePhoto) {
-                    top.linkTo(title.bottom, margin = 26.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+            imageUrl = photo,
+            onEditClick = { imagePickerLauncher.launch("image/*") },
+            modifier = Modifier.constrainAs(profilePhoto) {
+                top.linkTo(title.bottom, margin = 26.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
         )
 
         Text(

@@ -17,8 +17,8 @@ android {
         applicationId = "com.servin.trainify"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,6 +51,7 @@ dependencies {
     //Dagger Hilt
     implementation(libs.dagger.hilt.android)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.junit)
     ksp(libs.hilt.compiler)
@@ -72,6 +73,10 @@ dependencies {
     testImplementation(libs.turbine)
 
     testImplementation(libs.androidx.arch.core.testing)
+
+    //coil(para las imagenes de perfil)
+    implementation(libs.coil)
+    implementation(libs.coil.http)
 
 
 

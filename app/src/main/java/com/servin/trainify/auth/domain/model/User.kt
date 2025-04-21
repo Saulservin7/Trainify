@@ -9,5 +9,4 @@ data class User(
     val weight:String?=null,
     val photoUrl:String?=null,
     val gender:String?=null,
-
     )

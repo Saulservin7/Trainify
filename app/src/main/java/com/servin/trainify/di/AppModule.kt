@@ -2,6 +2,7 @@ package com.servin.trainify.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.servin.trainify.auth.data.AuthRepositoryImpl
 import com.servin.trainify.auth.domain.repository.AuthRepository
 
@@ -42,6 +43,12 @@ object AppModule {
         return ExerciseRepositoryImpl(firestore)
     }
 
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
+    }
+
 
     @Provides
     @Singleton
@@ -53,9 +60,10 @@ object AppModule {
     @Singleton
     fun provideProfileRepository(
         auth: FirebaseAuth,
-        firestore: FirebaseFirestore
+        firestore: FirebaseFirestore,
+        storage: FirebaseStorage
     ): ProfileRepository {
-        return ProfileRepositoryImp(auth, firestore)
+        return ProfileRepositoryImp(auth, firestore,storage)
     }
 
 

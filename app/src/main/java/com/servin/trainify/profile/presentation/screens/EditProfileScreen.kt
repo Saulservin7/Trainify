@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,7 +31,6 @@ fun EditProfileScreen(
 
 
     val name by viewModel.name.collectAsState()
-    val nameError by viewModel.errorName.collectAsState()
     val age by viewModel.age.collectAsState()
     val height by viewModel.height.collectAsState()
     val weight by viewModel.weight.collectAsState()
@@ -38,7 +38,7 @@ fun EditProfileScreen(
 
 
     val user = (viewModel.state as? ProfileState.Data)?.user
-    if (user != null && name.isEmpty() && age.isEmpty() && height.isEmpty() && weight.isEmpty() && gender.isEmpty()) {
+    if (user != null && name.value.isEmpty() && age.value.isEmpty() && height.value.isEmpty() && weight.value.isEmpty() && gender.value.isEmpty()) {
         viewModel.setName(user.name)
         viewModel.setAge(user.age ?: "")
         viewModel.setHeight(user.height ?: "")
@@ -72,8 +72,8 @@ fun EditProfileScreen(
             end.linkTo(parent.end)
         }) {
             FieldForm(
-                "Nombre", "Escribe tu nombre", name, { viewModel.setName(it) },
-                isError = nameError,
+                "Nombre", "Escribe tu nombre", name.value, { viewModel.setName(it) },
+                isError = name.isError,
                 errorDescription = "Tu nombre no debe contener números ni caracteres especiales",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -81,25 +81,25 @@ fun EditProfileScreen(
             )
 
             FieldForm(
-                "Edad", "Escribe tu edad",age, { viewModel.setAge(it) },
-                isError = false,
-                errorDescription = "",
+                "Edad", "Escribe tu edad", age.value, { viewModel.setAge(it) },
+                isError = age.isError,
+                errorDescription = "Tu edad no debe contener letras ni caracteres especiales, Ejemplo: 23",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
             )
             FieldForm(
-                "Altura", "Escribe tu altura", height, { viewModel.setHeight(it) },
-                isError = false,
-                errorDescription = "",
+                "Altura", "Escribe tu altura", height.value, { viewModel.setHeight(it) },
+                isError = height.isError,
+                errorDescription = "Debes ingresar tu altura en centimetros, Ejemplo: 175",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
             )
             FieldForm(
-                "Peso", "Escribe tu peso", weight, { viewModel.setWeight(it) },
-                isError = false,
-                errorDescription = "",
+                "Peso", "Escribe tu peso", weight.value, { viewModel.setWeight(it) },
+                isError = weight.isError,
+                errorDescription = "Ingresa tu peso en Kg, Ejemplo: 70",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
@@ -108,7 +108,7 @@ fun EditProfileScreen(
             DropBox(
                 modifier = Modifier.padding(10.dp),
                 items = items,
-                selectedItem = gender,
+                selectedItem = gender.value,
                 title = "Género",
                 onItemSelected = { viewModel.setGender(it) }
             )
@@ -116,20 +116,28 @@ fun EditProfileScreen(
 
         }
 
-        EstandardButton(
-            text = "Guardar",
-            modifier = Modifier
-                .constrainAs(button) {
-                    top.linkTo(columnForm.bottom, margin = 20.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                },
-            onClick = {
-                if (user != null) {
-                    viewModel.updateUserProfile(user)
+
+
+
+        user?.let { viewModel.verifyData(it) }?.let {
+            EstandardButton(
+                text = "Guardar",
+                enabled = !it,
+                modifier = Modifier
+                    .constrainAs(button) {
+                        top.linkTo(columnForm.bottom, margin = 20.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                onClick = {
+                    if (!viewModel.verifyData(user)) {
+                        viewModel.updateUserProfile(user)
+                    }
+
+
                 }
-            }
-        )
+            )
+        }
 
 
     }

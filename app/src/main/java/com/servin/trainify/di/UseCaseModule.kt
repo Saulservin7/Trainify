@@ -11,6 +11,7 @@ import com.servin.trainify.domain.usecase.GetExercisesUseCase
 import com.servin.trainify.profile.domain.repository.ProfileRepository
 import com.servin.trainify.profile.usecase.GetUserProfile
 import com.servin.trainify.profile.usecase.UpdateUserProfile
+import com.servin.trainify.profile.usecase.UploadPhotoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,6 +55,11 @@ object UseCaseModule {
     @Provides
     fun provideUpdateProfileUseCase(profileRepository: ProfileRepository): UpdateUserProfile {
         return UpdateUserProfile(profileRepository)
+    }
+
+    @Provides
+    fun provideUploadPhotoUseCase(profileRepository: ProfileRepository): UploadPhotoUseCase {
+        return UploadPhotoUseCase(profileRepository)
     }
 
 }

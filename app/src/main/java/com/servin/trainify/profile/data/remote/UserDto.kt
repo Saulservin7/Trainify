@@ -10,6 +10,7 @@ data class UserDto(
     val height: String? = null,
     val weight: String? = null,
     val gender: String? = null,
+    val photoUrl: String? = null,
 ) {
     fun toDomain(): User = User(
         id = id ?: "",
@@ -18,7 +19,8 @@ data class UserDto(
         age = age,
         height = height,
         weight = weight,
-        gender = gender
+        gender = gender,
+        photoUrl = photoUrl
     )
 
     companion object{
@@ -29,7 +31,8 @@ data class UserDto(
             age = user.age,
             height = user.height,
             weight = user.weight,
-            gender = user.gender
+            gender = user.gender,
+            photoUrl = user.photoUrl
         )
     }
 }
