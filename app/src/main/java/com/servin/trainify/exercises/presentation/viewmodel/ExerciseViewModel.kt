@@ -1,6 +1,9 @@
 package com.servin.trainify.exercises.presentation.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -15,18 +18,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.servin.trainify.exercises.domain.model.onError
 import com.servin.trainify.exercises.domain.model.onSuccess
-
-
+import androidx.core.net.toUri
+import com.servin.trainify.auth.UserSessionManager
 
 
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
     private val addExerciseUseCase: AddExerciseUseCase,
-    private val getExercisesUseCase: GetExercisesUseCase
+    private val getExercisesUseCase: GetExercisesUseCase,
+    private val userSessionManager: UserSessionManager
+
 ):ViewModel() {
 
     private val _state = MutableStateFlow<Result<List<Exercise>>>(Result.idle())
     val state: StateFlow<Result<List<Exercise>>> = _state
+
+    private val _mediaList = MutableStateFlow<List<String>>(emptyList())
+    val mediaList: StateFlow<List<String>> = _mediaList
+
+    private var uid: String
 
 
     data class FormFieldState<T>(
@@ -93,15 +103,37 @@ class ExerciseViewModel @Inject constructor(
         _sportContext.value = FormFieldState(sportContext, isError)
     }
 
-    fun verifyData(exercise: Exercise): Boolean {
-        return (exercise.title.isEmpty() || exercise.description.isEmpty() || exercise.id.isEmpty() || exercise.imageURL.isNullOrEmpty() || exercise.videoURL.isNullOrEmpty() || exercise.objective.isEmpty() || exercise.sportContext.isEmpty())
-                || (_title.value.isError || _description.value.isError || _id.value.isError || _imageURL.value.isError || _videoURL.value.isError || _objective.value.isError || _sportContext.value.isError)
+    fun verifyData(exercise: Exercise, mediaUris: List<Uri>): Boolean {
+        return (exercise.title.isEmpty() || exercise.description.isEmpty() || exercise.id.isEmpty() || mediaUris.isEmpty() || exercise.objective.isEmpty() || exercise.sportContext.isEmpty())
+                || (_title.value.isError || _description.value.isError || _id.value.isError || _objective.value.isError || _sportContext.value.isError)
+    }
+
+    private fun getFileExtension(context: Context, uri: Uri): String? {
+        return MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(context.contentResolver.getType(uri))
+    }
+
+    fun processMedia(context: Context): Pair<List<String>, List<String>> {
+        val images = _mediaList.value.filter { uriString ->
+            val uri = uriString.toUri()
+            val extension = getFileExtension(context, uri)
+            extension in setOf("jpg", "png", "jpeg")
+        }
+
+        val videos = _mediaList.value.filter { uriString ->
+            val uri = uriString.toUri()
+            val extension = getFileExtension(context, uri)
+            extension in setOf("mp4", "mov")
+        }
+
+        return Pair(images, videos)
     }
 
 
 
     init {
         loadExercises()
+         uid = userSessionManager.getCurrentUserUid()
     }
 
 
@@ -115,19 +147,25 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    fun addExercises(exercise: Exercise){
+    fun addExercises(exercise: Exercise, mediaUris: List<String>, userUid: String) {
         viewModelScope.launch {
             _stateExercise.value = Result.loading()
-            _stateExercise.value = addExerciseUseCase(exercise)
-                .onSuccess { Log.d("VM", "Ejercicio añadido") }
-                .onError { Log.e("VM", "Error: $it") }
+            Log.d("Donas", "$mediaUris")
 
+            // Llamada al use case con los parámetros necesarios
+            _stateExercise.value = addExerciseUseCase(exercise, mediaUris, userUid = uid)
+                .onSuccess {
+
+                    Log.d("VM", "Ejercicio añadido")
+                }
+                .onError {
+                    Log.e("VM", "Error: $it")
+                }
         }
     }
 
     // Lista de medios (imágenes o videos)
-    private val _mediaList = MutableStateFlow<List<String>>(emptyList())
-    val mediaList: StateFlow<List<String>> = _mediaList
+
 
     fun addMedia(uri: String) {
         _mediaList.value = _mediaList.value + uri

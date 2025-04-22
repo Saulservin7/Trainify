@@ -19,10 +19,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import android.net.Uri
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import coil3.compose.AsyncImage
 import androidx.core.net.toUri
 import androidx.compose.foundation.lazy.items
-
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
 
 
 /**
@@ -37,50 +41,53 @@ fun MediaGalleryPicker(
 ) {
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
-            // En lugar de sobrescribir, agregamos el nuevo medio a la lista existente
-            uri?.let { newUri ->
-                onAddMedia(newUri.toString())
-            }
+        contract = ActivityResultContracts.OpenMultipleDocuments(),
+        onResult = { uris ->
+            uris.forEach { uri -> onAddMedia(uri.toString()) }
         }
     )
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        LazyRow(modifier = Modifier.fillMaxWidth()) {
-            items(mediaUrls) { url ->
-                if (url.endsWith(".mp4") || url.endsWith(".mov")) {
-                    AndroidView(
-                        factory = {
-                            VideoView(it).apply {
-                                setVideoURI(url.toUri())
-                                setOnPreparedListener { mediaPlayer -> mediaPlayer.isLooping = true; start() }
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .width(200.dp)
-                            .height(120.dp)
-                    )
-                } else {
-                    AsyncImage(
-                        model = url,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(120.dp)
-                    )
-                }
+    LazyRow(modifier = Modifier.fillMaxWidth()) {
+        items(mediaUrls) { url ->
+            if (url.endsWith(".mp4") || url.endsWith(".mov")) {
+                AndroidView(
+                    factory = {
+                        VideoView(it).apply {
+                            setVideoURI(url.toUri())
+                            setOnPreparedListener { mediaPlayer -> mediaPlayer.isLooping = true; start() }
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .width(200.dp)
+                        .height(120.dp)
+                )
+            } else {
+                AsyncImage(
+                    model = url,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(120.dp)
+                )
             }
         }
 
-        Button(
-            onClick = { launcher.launch("image/* video/*") },
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text("Agregar foto o video")
+        // Recuadro con ícono de agregar
+        item {
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(120.dp)
+                    .clickable { launcher.launch(arrayOf("image/* video/*")) },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Agregar imagen o video",
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ fun NavigationWrapper() {
             }
 
             composable(AppDestination.addExercise.route) {
-                AddExerciseScreen()
+                AddExerciseScreen(onNavigate = {navController.navigate(AppDestination.Home.route)})
             }
         }
     }

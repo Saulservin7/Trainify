@@ -94,7 +94,7 @@ class AuthViewModel @Inject constructor(
         confirmPasswordHidden.value = !confirmPasswordHidden.value
     }
 
-    fun checkUser() {
+    private fun checkUser() {
         viewModelScope.launch {
             authRepository.getCurrentUser()?.let { user ->
                 _authstate.value = AuthState.Authenticated(user)

@@ -1,24 +1,59 @@
 package com.servin.trainify.exercises.data.repository
 
+import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.servin.trainify.exercises.data.model.Exercise
 import com.servin.trainify.exercises.domain.repository.ExerciseRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import com.servin.trainify.exercises.domain.model.Result // ¡Importa tu clase!
+import androidx.core.net.toUri
 
 
 class ExerciseRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val storage: FirebaseStorage
 ) : ExerciseRepository {
-    override suspend fun addExercise(exercise: Exercise): Result<Unit> {
+
+
+    override suspend fun addExercise(
+        exercise: Exercise,
+        mediaUris: List<String>,
+        userUid: String
+    ): Result<Unit> {
+
         return try {
+            // Generar un ID único para el ejercicio
+            val exerciseId = "${userUid}_${System.currentTimeMillis()}"
+            val storageRef = storage.reference.child("exercises/$exerciseId")
+
+            // Subir cada archivo
+            val mediaUrls = mediaUris.mapIndexed { index, uri ->
+                val fileRef = storageRef.child("$index")
+                try {
+                    val uriToUpload = uri.toUri()  // Convierte el String a Uri
+                    fileRef.putFile(uriToUpload).await()
+                } catch (e: Exception) {
+                    return Result.Error("Bistec: ${e.message}")
+                } // Esperamos que la carga termine
+                fileRef.downloadUrl.await().toString() // Obtenemos la URL del archivo subido
+            }
+
+            // Crear un nuevo objeto Exercise con las URLs de los archivos
+            val exerciseWithUrls = exercise.copy(
+                id = exerciseId,          // Usamos el ID generado
+                mediaUrls = mediaUrls     // Guardamos las URLs de los archivos
+            )
+
+            // Guardar el ejercicio en Firestore
             firestore.collection("exercises")
-                .add(exercise)
-                .await()
-           Result.success(Unit)
+                .add(exerciseWithUrls)  // Guardamos el ejercicio en la colección
+                .await()  // Esperamos que la operación termine
+
+            Result.success(Unit)  // Retornamos éxito
         } catch (e: Exception) {
-            Result.Error("Error adding Exercise:${e.message}")
+            Result.Error("Error adding Exercise: ${e.message}")  // En caso de error
         }
     }
 

@@ -20,13 +20,11 @@ fun EstandardButton(
     modifier: Modifier,
     enabled: Boolean = true
 
-    ) {
+) {
     Button(
         onClick = onClick,
-        enabled=enabled,
-        modifier = modifier
-            .fillMaxWidth(0.5f) // 80% del ancho de pantalla
-            .aspectRatio(4.5f), // 270 / 60 = 4.5
+        enabled = enabled,
+        modifier = modifier,
 
         colors = ButtonDefaults.buttonColors(
             containerColor = BluePrimary

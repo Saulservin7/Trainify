@@ -39,8 +39,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideExerciseRepository(firestore: FirebaseFirestore): ExerciseRepository {
-        return ExerciseRepositoryImpl(firestore)
+    fun provideExerciseRepository(firestore: FirebaseFirestore,storage: FirebaseStorage): ExerciseRepository {
+        return ExerciseRepositoryImpl(firestore,storage)
     }
 
     @Provides

@@ -1,20 +1,28 @@
 package com.servin.trainify.exercises.presentation.screens
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.servin.trainify.auth.presentation.components.FieldForm
 import com.servin.trainify.exercises.data.model.Exercise
@@ -24,15 +32,18 @@ import com.servin.trainify.presentation.components.EstandardButton
 import com.servin.trainify.presentation.components.MediaGalleryPicker
 import com.servin.trainify.presentation.components.TitleScreen
 
-@Composable
-fun AddExerciseScreen() {
 
-    AddExerciseContent()
+@Composable
+fun AddExerciseScreen(onNavigate: () -> Unit) {
+
+    AddExerciseContent(
+        onNavigate = onNavigate
+    )
 
 }
 
 @Composable
-fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
+fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel(),onNavigate: () -> Unit ) {
 
     val title by viewModel.title.collectAsState()
     val description by viewModel.description.collectAsState()
@@ -40,6 +51,7 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
     val objective by viewModel.objective.collectAsState()
     val mediaList by viewModel.mediaList.collectAsState()
     val id by viewModel.id.collectAsState()
+    val context = LocalContext.current
 
 
     val SportContextItems = listOf("Gym", "Fútbol", "Basquetbol")
@@ -51,9 +63,9 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
             .padding(20.dp)
     ) {
 
-        val (titleText, columnForm) = createRefs()
+        val (titleText, columnForm,buttonSave) = createRefs()
 
-        TitleScreen("Add Exercise", modifier = Modifier.constrainAs(titleText) {
+        TitleScreen("Agregar Ejercicio", modifier = Modifier.constrainAs(titleText) {
             top.linkTo(parent.top)
             start.linkTo(parent.start)
 
@@ -66,6 +78,8 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
                     top.linkTo(titleText.bottom, margin = 20.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
+                    bottom.linkTo(buttonSave.top, margin = 10.dp)
+                    height = Dimension.fillToConstraints
                 }
                 .verticalScroll(rememberScrollState())) {
 
@@ -87,6 +101,8 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
                     .padding(bottom = 20.dp)
             )
 
+            Text("Imagenes y/o Videos", modifier = Modifier.padding(bottom = 10.dp))
+
             MediaGalleryPicker(
                 mediaUrls = mediaList,
                 onAddMedia = { mediaUri ->
@@ -94,9 +110,14 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
                 }
             )
 
-            Row(modifier = Modifier.fillMaxWidth(),Arrangement.SpaceEvenly) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 DropBox(
-                    modifier = Modifier.padding(10.dp),
+                    modifier = Modifier.weight(1f).padding(end = 10.dp),
                     items = SportContextItems,
                     selectedItem = sportContext.value,
                     title = "Disciplina",
@@ -104,7 +125,7 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
                 )
 
                 DropBox(
-                    modifier = Modifier.padding(10.dp),
+                    modifier = Modifier.weight(1f).padding(start = 10.dp),
                     items = ObjectiveItems,
                     selectedItem = objective.value,
                     title = "Grupo Muscular",
@@ -114,38 +135,41 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel()) {
 
 
 
-            EstandardButton(
-                text = "Guardar",
-                onClick = {
-                    val imageUrl = mediaList.find { it.endsWith(".jpg") || it.endsWith(".png") }
-                    val videoUrl = mediaList.find { it.endsWith(".mp4") || it.endsWith(".mov") }
-
-                    val exercise = Exercise(
-                        id = "1",
-                        title = title.value,
-                        description = description.value,
-                        imageURL = imageUrl,
-                        videoURL = videoUrl,
-                        objective = objective.value,
-                        sportContext = sportContext.value
-                    )
-
-                    viewModel.addExercises(exercise)
-                },
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-
         }
+        EstandardButton(
+            text = "Guardar",
+            onClick = {
+                // Obtiene la lista de imágenes y videos usando la función del ViewModel
+                val (imageUrls, videoUrls) = viewModel.processMedia(context)
+                val mediaUris = imageUrls + videoUrls
+
+                Log.d("FilteredMedia", "Images: $imageUrls, Videos: $videoUrls")
+
+                val exercise = Exercise(
+                    id = "1",  // El ID final se genera en el repositorio
+                    title = title.value,
+                    description = description.value,
+                    mediaUrls = mediaUris,  // Pasa la lista combinada
+                    objective = objective.value,
+                    sportContext = sportContext.value
+                )
+
+                viewModel.addExercises(exercise, mediaUris, "")
+                onNavigate()
+
+            },
+            modifier = Modifier.constrainAs(buttonSave){
+                top.linkTo(columnForm.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom, 16.dp)
+            }
+                .fillMaxWidth()
+                .fillMaxHeight(0.06f)
+        )
 
 
     }
 
 }
 
-
-@Preview
-@Composable
-fun AddExerciseScreenPreview() {
-    AddExerciseScreen()
-}

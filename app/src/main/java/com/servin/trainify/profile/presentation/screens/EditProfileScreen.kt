@@ -106,7 +106,7 @@ fun EditProfileScreen(
                     .padding(bottom = 20.dp)
             )
             DropBox(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(bottom = 10.dp),
                 items = items,
                 selectedItem = gender.value,
                 title = "Género",

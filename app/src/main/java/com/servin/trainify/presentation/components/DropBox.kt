@@ -1,5 +1,6 @@
 package com.servin.trainify.presentation.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
@@ -19,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropBox(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     items: List<String>,
     selectedItem: String,
     title: String,
@@ -27,24 +28,30 @@ fun DropBox(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Text(title, modifier = Modifier.padding(bottom = 10.dp))
-
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp)
     ) {
-        TextField(
-            readOnly = true,
-            value = selectedItem,
-            onValueChange = {},
-            label = { Text(title) },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            modifier = Modifier.menuAnchor()
-        )
+        Column(modifier.fillMaxWidth()) {
+            Text(
+                text = title,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            TextField(
+                readOnly = true,
+                value = selectedItem,
+                onValueChange = {},
+                label = null, // <- Aquí quitamos el label porque ya está el título
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+        }
+
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
