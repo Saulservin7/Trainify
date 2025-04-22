@@ -4,10 +4,9 @@ import com.servin.trainify.auth.domain.repository.AuthRepository
 import com.servin.trainify.auth.domain.usecase.LoginUseCase
 import com.servin.trainify.auth.domain.usecase.LogoutUseCase
 import com.servin.trainify.auth.domain.usecase.RegisterUseCase
-import com.servin.trainify.data.model.Exercise
-import com.servin.trainify.domain.repository.ExerciseRepository
-import com.servin.trainify.domain.usecase.AddExerciseUseCase
-import com.servin.trainify.domain.usecase.GetExercisesUseCase
+import com.servin.trainify.exercises.domain.repository.ExerciseRepository
+import com.servin.trainify.exercises.usecase.AddExerciseUseCase
+import com.servin.trainify.exercises.usecase.GetExercisesUseCase
 import com.servin.trainify.profile.domain.repository.ProfileRepository
 import com.servin.trainify.profile.usecase.GetUserProfile
 import com.servin.trainify.profile.usecase.UpdateUserProfile

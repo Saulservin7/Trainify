@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.servin.trainify.auth.domain.model.User
 import com.servin.trainify.auth.domain.repository.AuthRepository
-import com.servin.trainify.domain.model.ExerciseCategory
-import com.servin.trainify.domain.repository.CategoryRepository
-import com.servin.trainify.domain.usecase.GetUserData
+import com.servin.trainify.exercises.domain.model.ExerciseCategory
+import com.servin.trainify.exercises.domain.repository.CategoryRepository
+import com.servin.trainify.exercises.usecase.GetUserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

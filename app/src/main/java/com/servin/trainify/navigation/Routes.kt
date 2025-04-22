@@ -10,6 +10,7 @@ sealed class AppDestination(val route: String){
     object Login : AppDestination("login")
     object Register : AppDestination("register")
     object EditProfile : AppDestination("edit_profile")
+    object addExercise : AppDestination("add_exercise")
 }
 
 // navigation/BottomBarItem.kt
@@ -35,6 +36,8 @@ sealed class BottomBarItem(
         title = "Configuración",
         icon = R.drawable.settings
     )
+
+
 
     companion object {
         val entries = listOf(Home, Profile, Settings)

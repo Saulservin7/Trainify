@@ -29,4 +29,13 @@ class NavigationManager @Inject constructor() { // Constructor público con @Inj
     fun popBackStack() {
         navController?.popBackStack()
     }
+
+    fun navigateAndClearBackStack(route: String, popUpToRoute: String) {
+        navController?.navigate(route) {
+            popUpTo(popUpToRoute) {
+                inclusive = true
+            }
+        }
+        _currentRoute.value = route
+    }
 }

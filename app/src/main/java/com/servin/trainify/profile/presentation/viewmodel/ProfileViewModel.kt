@@ -123,6 +123,18 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun EnabledButton(): Boolean {
+        return name.value.value.isNotEmpty() &&
+                !name.value.isError &&
+                age.value.value.isNotEmpty() &&
+                !age.value.isError &&
+                height.value.value.isNotEmpty() &&
+                !height.value.isError &&
+                weight.value.value.isNotEmpty() &&
+                !weight.value.isError &&
+                gender.value.value.isNotEmpty()
+    }
+
     fun updateUserProfile(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             val updatedUser = user.copy(

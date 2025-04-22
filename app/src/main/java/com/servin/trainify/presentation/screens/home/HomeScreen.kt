@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,25 +33,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.HorizontalAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.servin.trainify.R
 import com.servin.trainify.auth.presentation.viewmodel.AuthState
 import com.servin.trainify.auth.presentation.viewmodel.AuthViewModel
-import com.servin.trainify.data.model.Exercise
-
-import com.servin.trainify.data.model.ExerciseCategoryCard
-import com.servin.trainify.data.model.MenuItem
-import com.servin.trainify.domain.model.ExerciseCategory
-import com.servin.trainify.domain.repository.CategoryRepository
-import com.servin.trainify.navbar.components.BottomBar
+import com.servin.trainify.exercises.domain.model.ExerciseCategory
+import com.servin.trainify.home.MenuItem
 import com.servin.trainify.presentation.viewmodel.HomeViewModel
 import com.servin.trainify.ui.theme.BluePrimary
 import com.servin.trainify.ui.theme.gradient
@@ -62,6 +51,7 @@ import com.servin.trainify.ui.theme.gradient
 fun HomeScreen(
     onLogoutClick: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
+    navigate: () -> Unit
 
     ) {
 
@@ -73,14 +63,14 @@ fun HomeScreen(
         }
     }
 
-    HomeContent()
+    HomeContent(navigate=navigate)
 
 
 }
 
 
 @Composable
-fun HomeContent(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -197,7 +187,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel()) {
                 fontSize = 16.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.clickable { }
+                modifier = Modifier.clickable {navigate() }
             )
         }
 

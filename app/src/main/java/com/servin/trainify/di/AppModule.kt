@@ -6,9 +6,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.servin.trainify.auth.data.AuthRepositoryImpl
 import com.servin.trainify.auth.domain.repository.AuthRepository
 
-import com.servin.trainify.data.repository.ExerciseRepositoryImpl
-import com.servin.trainify.domain.repository.CategoryRepository
-import com.servin.trainify.domain.repository.ExerciseRepository
+import com.servin.trainify.exercises.data.repository.ExerciseRepositoryImpl
+import com.servin.trainify.exercises.domain.repository.CategoryRepository
+import com.servin.trainify.exercises.domain.repository.ExerciseRepository
 import com.servin.trainify.navigation.NavigationManager
 import com.servin.trainify.profile.data.ProfileRepositoryImp
 import com.servin.trainify.profile.domain.repository.ProfileRepository
