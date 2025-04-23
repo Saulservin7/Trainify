@@ -14,5 +14,6 @@ interface ExerciseRepository {
 
     suspend fun getExercises(): Result<List<Exercise>>
     suspend fun getExerciseByObjective(objective: String): Result<List<Exercise>>
+    suspend fun getExerciseById(id: String): Result<Exercise>
     suspend fun getExerciseBySportContext(sportContext: String): Result<List<Exercise>>
 }

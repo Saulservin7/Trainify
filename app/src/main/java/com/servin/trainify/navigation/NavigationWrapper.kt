@@ -5,14 +5,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.servin.trainify.auth.presentation.screens.LoginScreen
 import com.servin.trainify.auth.presentation.screens.RegisterScreen
 import com.servin.trainify.exercises.presentation.screens.AddExerciseScreen
 import com.servin.trainify.exercises.presentation.screens.AllExercisesScreen
+import com.servin.trainify.exercises.presentation.screens.ExerciseDetailScreen
 import com.servin.trainify.navigation.components.BottomBar
 import com.servin.trainify.presentation.screens.home.HomeScreen
 
@@ -97,7 +100,21 @@ fun NavigationWrapper() {
                 AddExerciseScreen(onNavigate = { navController.navigate(AppDestination.Home.route) })
             }
             composable(AppDestination.AllExercises.route) {
-                AllExercisesScreen()
+                AllExercisesScreen(
+                    navigate = { exerciseId ->
+                        navController.navigate(AppDestination.ExerciseDetail.createRoute(exerciseId))
+                    }
+                )
+            }
+
+            composable(
+                route = AppDestination.ExerciseDetail.route,
+                arguments = listOf(navArgument("exerciseId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val exerciseId = backStackEntry.arguments?.getString("exerciseId") ?: return@composable
+                ExerciseDetailScreen(
+                    exerciseId = exerciseId
+                )
             }
         }
     }

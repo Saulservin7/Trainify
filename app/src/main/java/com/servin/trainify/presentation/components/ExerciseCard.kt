@@ -1,5 +1,6 @@
 package com.servin.trainify.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,15 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.servin.trainify.R
 import com.servin.trainify.exercises.data.model.Exercise
+import com.servin.trainify.navigation.AppDestination
 
 @Composable
-fun ExerciseCard(exercise: Exercise) {
+fun ExerciseCard(exercise: Exercise, navigate: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(end = 16.dp)
@@ -30,9 +33,11 @@ fun ExerciseCard(exercise: Exercise) {
             contentDescription = null,
             modifier = Modifier
                 .aspectRatio(1f)
-                .clip(RoundedCornerShape(16.dp)),
+                .clip(RoundedCornerShape(20.dp))
+                .clickable { navigate(exercise.id) },
             placeholder = painterResource(id = R.drawable.ic_launcher_background),
             error = painterResource(id = R.drawable.ic_launcher_background),
+            contentScale = ContentScale.Crop
         )
 
         Text(

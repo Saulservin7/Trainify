@@ -74,18 +74,36 @@ class ExerciseRepositoryImpl @Inject constructor(
 
     override suspend fun getExerciseByObjective(objective: String): Result<List<Exercise>> {
         return try {
-
-
             val snapshot = firestore.collection("exercises")
                 .whereEqualTo("objective", objective)
                 .get()
                 .await()
-            val exercises = snapshot.documents.map { doc ->
-                doc.toObject(Exercise::class.java)!!
+            val exercises = snapshot.documents.mapNotNull { doc ->
+                doc.toObject(ExerciseDto::class.java)?.toDomain()
             }
             Result.success(exercises)
         } catch (e: Exception) {
             Result.error("Error Obteniendo Ejercicios:${e.message}")
+        }
+    }
+
+    override suspend fun getExerciseById(id:String):Result<Exercise>{
+        return try{
+            val snapshot = firestore.collection("exercises")
+                .whereEqualTo("id", id)
+                .get()
+                .await()
+            val exercise = snapshot.documents.firstNotNullOfOrNull { doc ->
+                doc.toObject(ExerciseDto::class.java)?.toDomain()
+            }
+
+            if (exercise != null) {
+                Result.success(exercise)
+            } else {
+                Result.error("Ejercicio no encontrado")
+            }
+        } catch (e:Exception){
+            Result.error("Error Obteniendo Ejercicio:${e.message}")
         }
     }
 

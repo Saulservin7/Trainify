@@ -21,7 +21,7 @@ import com.servin.trainify.presentation.components.ExerciseGalleryGrouped
 import com.servin.trainify.presentation.components.TitleScreen
 
 @Composable
-fun AllExercisesScreen(viewModel: AllExercisesViewModel = hiltViewModel()) {
+fun AllExercisesScreen(viewModel: AllExercisesViewModel = hiltViewModel(),navigate: (String) -> Unit) {
     val result by viewModel.state.collectAsState()
 
     when (result) {
@@ -42,7 +42,7 @@ fun AllExercisesScreen(viewModel: AllExercisesViewModel = hiltViewModel()) {
                 TitleScreen("Ejercicios", modifier = Modifier.padding(16.dp))
 
                 // Aquí puedes mostrar la lista de ejercicios
-                ExerciseGalleryGrouped(exercises)
+                ExerciseGalleryGrouped(exercises,navigate)
 
             }
 
