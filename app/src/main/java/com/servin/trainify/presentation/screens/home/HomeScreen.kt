@@ -51,7 +51,8 @@ import com.servin.trainify.ui.theme.gradient
 fun HomeScreen(
     onLogoutClick: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
-    navigate: () -> Unit
+    navigate: () -> Unit,
+    allExercises: () -> Unit,
 
     ) {
 
@@ -63,14 +64,18 @@ fun HomeScreen(
         }
     }
 
-    HomeContent(navigate=navigate)
+    HomeContent(navigate = navigate, allExercises = allExercises)
 
 
 }
 
 
 @Composable
-fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit) {
+fun HomeContent(
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigate: () -> Unit,
+    allExercises: () -> Unit
+) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +96,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit)
                 .size(25.dp), tint = BluePrimary
         )
         Text(
-            text = "WELCOME BACK,${userName.value?.name?.uppercase()}",
+            text = "Bienvenido,${userName.value?.name?.uppercase()}",
             modifier = Modifier.constrainAs(title) {
                 top.linkTo(iconTitle.top)
                 start.linkTo(iconTitle.end)
@@ -120,7 +125,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit)
             ) {
 
                 Text(
-                    "Progress",
+                    "Progeso",
                     modifier = Modifier
                         .padding(top = 24.dp, start = 19.dp),
                     color = Color.White, fontSize = 20.sp
@@ -157,7 +162,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit)
 
             menuItem.forEach(
                 {
-                    MenuButton(title = it.title, icon = it.icon)
+                    MenuButton(title = it.title, icon = it.icon, navigate = allExercises)
                 }
             )
 
@@ -187,7 +192,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit)
                 fontSize = 16.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.clickable {navigate() }
+                modifier = Modifier.clickable { navigate() }
             )
         }
 
@@ -214,7 +219,7 @@ fun HomeContent(viewModel: HomeViewModel = hiltViewModel(),navigate: () -> Unit)
 
 
 @Composable
-fun MenuButton(title: String, icon: Int) {
+fun MenuButton(title: String, icon: Int, navigate: () -> Unit) {
     Column {
         Card(
             modifier = Modifier
@@ -234,7 +239,11 @@ fun MenuButton(title: String, icon: Int) {
                     modifier = Modifier
                         .align(Alignment.Center)
                         .size(25.dp)
-                        .aspectRatio(1f),
+                        .aspectRatio(1f)
+                        .clickable {
+                            navigate()
+
+                        },
                     tint = BluePrimary
                 )
 

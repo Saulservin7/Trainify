@@ -9,6 +9,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import com.servin.trainify.exercises.domain.model.Result // ¡Importa tu clase!
 import androidx.core.net.toUri
+import com.servin.trainify.exercises.data.remote.ExerciseDto
 
 
 class ExerciseRepositoryImpl @Inject constructor(
@@ -60,12 +61,14 @@ class ExerciseRepositoryImpl @Inject constructor(
     override suspend fun getExercises(): Result<List<Exercise>> {
         return try {
             val snapshot = firestore.collection("exercises").get().await()
-            val exercises = snapshot.documents.map { doc ->
-                doc.toObject(Exercise::class.java)!!
+
+            val exercises = snapshot.documents.mapNotNull { doc ->
+                doc.toObject(ExerciseDto::class.java)?.toDomain()
             }
+
             Result.success(exercises)
         } catch (e: Exception) {
-            Result.error("Error Obteniendo Ejercicios:${e.message}")
+            Result.error("Error Obteniendo Ejercicios: ${e.message}")
         }
     }
 

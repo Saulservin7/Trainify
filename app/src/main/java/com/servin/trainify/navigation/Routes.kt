@@ -11,6 +11,7 @@ sealed class AppDestination(val route: String){
     object Register : AppDestination("register")
     object EditProfile : AppDestination("edit_profile")
     object addExercise : AppDestination("add_exercise")
+    object AllExercises : AppDestination("all_exercises")
 }
 
 // navigation/BottomBarItem.kt

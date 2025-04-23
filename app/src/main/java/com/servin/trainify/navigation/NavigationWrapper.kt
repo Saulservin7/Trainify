@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.servin.trainify.auth.presentation.screens.LoginScreen
 import com.servin.trainify.auth.presentation.screens.RegisterScreen
 import com.servin.trainify.exercises.presentation.screens.AddExerciseScreen
+import com.servin.trainify.exercises.presentation.screens.AllExercisesScreen
 import com.servin.trainify.navigation.components.BottomBar
 import com.servin.trainify.presentation.screens.home.HomeScreen
 
@@ -66,16 +67,20 @@ fun NavigationWrapper() {
 
             composable(AppDestination.Home.route) {
                 HomeScreen(
-                    onLogoutClick = { navController.navigate(AppDestination.Login.route)
+                    onLogoutClick = {
+                        navController.navigate(AppDestination.Login.route)
                     },
-                    navigate = { navController.navigate(AppDestination.addExercise.route) }
+                    navigate = { navController.navigate(AppDestination.addExercise.route) },
+                    allExercises = {
+                        navController.navigate(AppDestination.AllExercises.route)
+                    }
                 )
             }
 
             composable(AppDestination.Profile.route) {
-               ProfileScreen(
+                ProfileScreen(
                     onEditProfileClick = { navController.navigate(AppDestination.EditProfile.route) },
-               )
+                )
             }
 
             composable(AppDestination.Settings.route) {
@@ -89,7 +94,10 @@ fun NavigationWrapper() {
             }
 
             composable(AppDestination.addExercise.route) {
-                AddExerciseScreen(onNavigate = {navController.navigate(AppDestination.Home.route)})
+                AddExerciseScreen(onNavigate = { navController.navigate(AppDestination.Home.route) })
+            }
+            composable(AppDestination.AllExercises.route) {
+                AllExercisesScreen()
             }
         }
     }

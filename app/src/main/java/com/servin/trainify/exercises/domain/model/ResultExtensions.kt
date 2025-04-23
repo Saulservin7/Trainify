@@ -1,6 +1,8 @@
 package com.servin.trainify.exercises.domain.model
 
-fun <T> Result<T>.onSuccess(action: (T) -> Unit): Result<T> {
+
+
+fun <T> Result<T>.onSuccess(action:  (T) -> Unit): Result<T> {
     if (this is Result.Success) action(data)
     return this
 }

@@ -25,7 +25,6 @@ import com.servin.trainify.auth.UserSessionManager
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
     private val addExerciseUseCase: AddExerciseUseCase,
-    private val getExercisesUseCase: GetExercisesUseCase,
     private val userSessionManager: UserSessionManager
 
 ):ViewModel() {
@@ -132,20 +131,13 @@ class ExerciseViewModel @Inject constructor(
 
 
     init {
-        loadExercises()
+
          uid = userSessionManager.getCurrentUserUid()
     }
 
 
 
-    private fun loadExercises() {
-        viewModelScope.launch {
-            _state.value = Result.loading()
-            _state.value = getExercisesUseCase()
-                .onSuccess { Log.d("VM", "Ejercicios: ${it.size}") }
-                .onError { Log.e("VM", "Error: $it") }
-        }
-    }
+
 
     fun addExercises(exercise: Exercise, mediaUris: List<String>, userUid: String) {
         viewModelScope.launch {
