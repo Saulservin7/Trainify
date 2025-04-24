@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +27,8 @@ fun ExerciseCard(exercise: Exercise, navigate: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(end = 16.dp)
-            .width(150.dp)
+            .widthIn(max = 200.dp)
+            .fillMaxWidth(0.8f)
     ) {
         AsyncImage(
             model = exercise.mediaUrls.firstOrNull(),

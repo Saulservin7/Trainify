@@ -23,9 +23,6 @@ import com.servin.trainify.presentation.screens.settings.SettingsScreen
 import com.servin.trainify.profile.presentation.screens.EditProfileScreen
 import com.servin.trainify.profile.presentation.screens.ProfileScreen
 
-
-// navigation/NavigationWrapper.kt
-// navigation/NavigationWrapper.kt
 @Composable
 fun NavigationWrapper() {
     val navController = rememberNavController()

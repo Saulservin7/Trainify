@@ -3,7 +3,10 @@ package com.servin.trainify.presentation.components
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +27,11 @@ fun GalleryCard(url: String?) {
         model = url,
         contentDescription = null,
         modifier = Modifier
-            .clip(RoundedCornerShape(20.dp)).fillMaxWidth(0.7f).padding(10.dp),
+            .padding(10.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .widthIn(max = 300.dp)
+            .aspectRatio(16/13f)
+            .fillMaxWidth(0.9f),
         placeholder = painterResource(id = R.drawable.ic_launcher_background),
         error = painterResource(id = R.drawable.ic_launcher_background),
         contentScale = ContentScale.Crop
