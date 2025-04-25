@@ -26,8 +26,7 @@ fun GalleryCard(url: String?) {
     AsyncImage(
         model = url,
         contentDescription = null,
-        modifier = Modifier
-            .padding(10.dp)
+        modifier = Modifier.padding(end = 15.dp)
             .clip(RoundedCornerShape(20.dp))
             .widthIn(max = 300.dp)
             .aspectRatio(16/13f)

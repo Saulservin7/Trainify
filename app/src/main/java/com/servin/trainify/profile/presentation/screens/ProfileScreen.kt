@@ -57,8 +57,6 @@ fun ProfileContent(
         viewModel.getUserProfile()
     }
 
-
-
     val isDataComplete = viewModel.isCompleteData.collectAsState()
     val photoUrl = viewModel.photoUrl.collectAsState()
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -85,10 +83,6 @@ fun ProfileContent(
         "Peso:" to (user?.weight?.plus(" kg") ?: "No especificado"),
         "Genero" to (user?.gender ?: "No especificado")
     )
-
-
-
-
 
 
     ConstraintLayout(

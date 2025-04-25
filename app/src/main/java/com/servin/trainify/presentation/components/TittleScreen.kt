@@ -2,6 +2,8 @@ package com.servin.trainify.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -9,15 +11,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-
 fun TitleScreen(
     title: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    centerVertically: Boolean = false
 ) {
+    val textModifier = if (centerVertically) {
+        modifier.then(Modifier.wrapContentHeight(align = Alignment.CenterVertically))
+    } else {
+        modifier
+    }
+
     androidx.compose.material3.Text(
         text = title,
-        color = Color.White,
-        modifier = modifier,
+        modifier = textModifier,
         fontSize = 20.sp
     )
 }

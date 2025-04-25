@@ -83,7 +83,7 @@ class ProfileViewModel @Inject constructor(
         _gender.value = FormFieldState(gender, isError)
     }
 
-    fun verifyData(user: User): Boolean {
+    private fun verifyData(user: User): Boolean {
         return (user.name.isEmpty() || user.age.isNullOrEmpty() || user.height.isNullOrEmpty() || user.weight.isNullOrEmpty() || user.gender.isNullOrEmpty())
                 || (name.value.isError || age.value.isError || weight.value.isError)
     }

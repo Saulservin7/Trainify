@@ -4,7 +4,9 @@ import com.servin.trainify.auth.domain.repository.AuthRepository
 import com.servin.trainify.auth.domain.usecase.LoginUseCase
 import com.servin.trainify.auth.domain.usecase.LogoutUseCase
 import com.servin.trainify.auth.domain.usecase.RegisterUseCase
+import com.servin.trainify.exercises.domain.repository.ExerciseLikeRespository
 import com.servin.trainify.exercises.domain.repository.ExerciseRepository
+import com.servin.trainify.exercises.usecase.AddExerciseLikeUseCase
 import com.servin.trainify.exercises.usecase.AddExerciseUseCase
 import com.servin.trainify.exercises.usecase.GetExercisesUseCase
 import com.servin.trainify.profile.domain.repository.ProfileRepository
@@ -59,6 +61,11 @@ object UseCaseModule {
     @Provides
     fun provideUploadPhotoUseCase(profileRepository: ProfileRepository): UploadPhotoUseCase {
         return UploadPhotoUseCase(profileRepository)
+    }
+
+    @Provides
+    fun provideExerciseLikeUseCase(exerciseLikeRespository: ExerciseLikeRespository): AddExerciseLikeUseCase {
+        return AddExerciseLikeUseCase(exerciseLikeRespository)
     }
 
 }

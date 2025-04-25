@@ -5,9 +5,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.servin.trainify.auth.data.AuthRepositoryImpl
 import com.servin.trainify.auth.domain.repository.AuthRepository
+import com.servin.trainify.exercises.data.repository.ExerciseLikeRepositoryImpl
 
 import com.servin.trainify.exercises.data.repository.ExerciseRepositoryImpl
 import com.servin.trainify.exercises.domain.repository.CategoryRepository
+import com.servin.trainify.exercises.domain.repository.ExerciseLikeRespository
 import com.servin.trainify.exercises.domain.repository.ExerciseRepository
 import com.servin.trainify.navigation.NavigationManager
 import com.servin.trainify.profile.data.ProfileRepositoryImp
@@ -66,6 +68,13 @@ object AppModule {
         return ProfileRepositoryImp(auth, firestore,storage)
     }
 
+    @Singleton
+    @Provides
+    fun provideExerciseLikeRepository(
+        firestore: FirebaseFirestore
+    ): ExerciseLikeRespository {
+        return ExerciseLikeRepositoryImpl(firestore)
+    }
 
     @Provides
     @Singleton

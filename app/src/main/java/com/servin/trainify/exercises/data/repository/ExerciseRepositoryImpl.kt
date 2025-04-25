@@ -41,7 +41,8 @@ class ExerciseRepositoryImpl @Inject constructor(
                 fileRef.downloadUrl.await().toString() // Obtenemos la URL del archivo subido
             }
 
-            // Crear un nuevo objeto Exercise con las URLs de los archivos
+            // C
+            // rear un nuevo objeto Exercise con las URLs de los archivos
             val exerciseWithUrls = exercise.copy(
                 id = exerciseId,          // Usamos el ID generado
                 mediaUrls = mediaUrls     // Guardamos las URLs de los archivos

@@ -110,7 +110,7 @@ fun NavigationWrapper() {
             ) { backStackEntry ->
                 val exerciseId = backStackEntry.arguments?.getString("exerciseId") ?: return@composable
                 ExerciseDetailScreen(
-                    exerciseId = exerciseId
+                    exerciseId = exerciseId,
                 )
             }
         }

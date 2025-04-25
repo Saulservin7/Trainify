@@ -17,3 +17,19 @@ fun GalleryMedia(exercise: Exercise,size:Int,modifier: Modifier){
 
 }
 
+
+@Composable
+@Preview
+fun GalleryMediaPreview() {
+    val exercise = Exercise(
+        id = "1",
+        title = "Ejercicio 1",
+        description = "Descripción del ejercicio 1",
+        mediaUrls = listOf("https://example.com/image1.jpg", "https://example.com/image2.jpg"),
+        objective = "Objetivo del ejercicio 1",
+         sportContext = "Tipo del ejercicio 1",
+
+    )
+    GalleryMedia(exercise,2,Modifier.fillMaxWidth())
+}
+
