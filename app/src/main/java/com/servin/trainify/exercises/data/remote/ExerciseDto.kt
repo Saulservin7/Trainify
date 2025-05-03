@@ -9,6 +9,9 @@ data class ExerciseDto(
     val mediaUrls: List<String>? = null,
     val objective: String? = null,
     val sportContext: String? = null,
+    val isPublic: Boolean = false,
+    val average: Float = 0f,
+    val ratingCount: Int = 0
 
 ) {
     fun toDomain() = Exercise(
@@ -18,6 +21,9 @@ data class ExerciseDto(
         mediaUrls = mediaUrls ?: emptyList(),
         objective = objective ?: "",
         sportContext = sportContext ?: "",
+        isPublic = isPublic,
+        average = average,
+        ratingCount = ratingCount
     )
 
     companion object {
@@ -27,7 +33,10 @@ data class ExerciseDto(
             description = exercise.description,
             mediaUrls = exercise.mediaUrls,
             objective = exercise.objective,
-            sportContext = exercise.sportContext
+            sportContext = exercise.sportContext,
+            isPublic = exercise.isPublic,
+            average = exercise.average,
+            ratingCount = exercise.ratingCount
         )
 
     }

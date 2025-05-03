@@ -9,6 +9,9 @@ data class Exercise(
     val mediaUrls: List<String>,
     val objective:String,
     val sportContext:String,
+    val isPublic:Boolean=false,
+    val average:Float=0f,
+    val ratingCount:Int=0
 )
 
 

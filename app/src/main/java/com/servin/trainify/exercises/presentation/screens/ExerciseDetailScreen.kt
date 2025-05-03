@@ -1,5 +1,6 @@
 package com.servin.trainify.exercises.presentation.screens
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,7 +46,6 @@ import com.servin.trainify.ui.theme.BluePrimary
 fun ExerciseDetailScreen(
     exerciseId: String,
     viewModel: ExerciseDetailViewModel = hiltViewModel(),
-
 ) {
 
     val state by viewModel.state.collectAsState()
@@ -78,8 +78,8 @@ fun ExerciseDetailScreen(
                     likeState,
                     onLikeClicked = { viewModel.setLikeState(!likeState,exerciseId) },
                     viewModel,
-                    onRankingClicked = {viewModel.setRatingState(it) },
-                    rankingState
+                    rankingState,
+                    exerciseId
                 )
             }
 
@@ -97,14 +97,15 @@ fun ExerciseDetailScreen(
 
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun ExerciseDetailContent(
     exercise: Exercise,
     likeState: Boolean,
     onLikeClicked: () -> Unit,
     viewModel: ExerciseDetailViewModel,
-    onRankingClicked: (Int) -> Unit,
-    rankingState: Int
+    rankingState: Int,
+    exerciseId: String
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth()
@@ -127,7 +128,9 @@ fun ExerciseDetailContent(
 
             Ranking(
                 modifier = Modifier,
-                size = 15.dp
+                size = 15.dp,
+                ranking = String.format("%.2f", exercise.average),
+                starsCount = exercise.average.toInt()
             )
 
             Icon(
@@ -208,7 +211,10 @@ fun ExerciseDetailContent(
             StarRating(
                 rating = rankingState,
                 onRatingChanged = { newRating ->
-                    viewModel.setRatingState(newRating)
+                    viewModel.setRatingState(
+                        newRating,
+                        exerciseId = exerciseId
+                    )
                 },
                 modifier = Modifier
                     .padding(top = 15.dp)

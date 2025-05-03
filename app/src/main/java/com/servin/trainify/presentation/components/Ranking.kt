@@ -17,7 +17,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.servin.trainify.ui.theme.BluePrimary
 
 @Composable
-fun Ranking(modifier: Modifier, size: Dp) {
+fun Ranking(modifier: Modifier, size: Dp,ranking: String,starsCount: Int) {
     Column(
         modifier = modifier,
 
@@ -26,13 +26,13 @@ fun Ranking(modifier: Modifier, size: Dp) {
         ConstraintLayout() {
             val (punctuation, rating) = createRefs()
 
-            Text("(4.5)", fontSize = 20.sp, modifier = Modifier.constrainAs(punctuation){
+            Text(ranking, fontSize = 20.sp, modifier = Modifier.constrainAs(punctuation){
                 start.linkTo(rating.start)
                 end.linkTo(rating.end)
 
             })
             StarRating(
-                rating = 4,
+                rating = starsCount,
                 onRatingChanged = {},
                 modifier = modifier.constrainAs(rating){
                     top.linkTo(punctuation.bottom)
@@ -48,8 +48,3 @@ fun Ranking(modifier: Modifier, size: Dp) {
 }
 
 
-@Composable
-@Preview
-fun RankingPreview() {
-    Ranking(modifier = Modifier, size = 15.dp)
-}

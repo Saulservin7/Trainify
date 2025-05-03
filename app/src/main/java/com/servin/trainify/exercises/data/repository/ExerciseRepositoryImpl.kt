@@ -50,8 +50,9 @@ class ExerciseRepositoryImpl @Inject constructor(
 
             // Guardar el ejercicio en Firestore
             firestore.collection("exercises")
-                .add(exerciseWithUrls)  // Guardamos el ejercicio en la colección
-                .await()  // Esperamos que la operación termine
+                .document(exerciseId) // Usa el mismo ID generado
+                .set(exerciseWithUrls)
+                .await() // Esperamos que la operación termine
 
             Result.success(Unit)  // Retornamos éxito
         } catch (e: Exception) {
@@ -121,6 +122,26 @@ class ExerciseRepositoryImpl @Inject constructor(
             Result.success(exercises)
         } catch (e: Exception) {
             Result.error("Error Obteniendo Ejercicios:${e.message}")
+        }
+    }
+
+   override suspend fun updateAverage(exerciseId: String, average: Float): Result<Unit> {
+        return try {
+            val exerciseRef = firestore.collection("exercises").document(exerciseId)
+
+            // Actualizar el promedio
+            exerciseRef.update("average", average).await()
+
+            // Verificar si la actualización fue exitosa
+            val updatedExercise = exerciseRef.get().await().toObject(ExerciseDto::class.java)
+            if (updatedExercise != null) {
+                Result.success(Unit)
+            } else {
+                Result.error("Error actualizando promedio")
+            }
+        } catch (e: Exception) {
+            Result.error("Error actualizando promedio: ${e.message}")
+
         }
     }
 

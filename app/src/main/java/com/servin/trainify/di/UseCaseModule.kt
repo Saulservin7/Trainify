@@ -68,4 +68,14 @@ object UseCaseModule {
         return AddExerciseLikeUseCase(exerciseLikeRespository)
     }
 
+    @Provides
+    fun provideAddExerciseRatingUseCase(exerciseLikeRespository: ExerciseLikeRespository): com.servin.trainify.exercises.usecase.AddExerciseRatingUseCase {
+        return com.servin.trainify.exercises.usecase.AddExerciseRatingUseCase(exerciseLikeRespository)
+    }
+
+    @Provides
+    fun provideGetExerciseLikeUseCase(exerciseLikeRespository: ExerciseLikeRespository): com.servin.trainify.exercises.usecase.GetExerciseLikeUseCase {
+        return com.servin.trainify.exercises.usecase.GetExerciseLikeUseCase(exerciseLikeRespository)
+    }
+
 }

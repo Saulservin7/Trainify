@@ -16,4 +16,6 @@ interface ExerciseRepository {
     suspend fun getExerciseByObjective(objective: String): Result<List<Exercise>>
     suspend fun getExerciseById(id: String): Result<Exercise>
     suspend fun getExerciseBySportContext(sportContext: String): Result<List<Exercise>>
+
+    suspend fun updateAverage(exerciseId: String, average: Float): Result<Unit>
 }
