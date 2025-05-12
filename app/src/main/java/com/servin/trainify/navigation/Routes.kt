@@ -12,6 +12,7 @@ sealed class AppDestination(val route: String){
     object EditProfile : AppDestination("edit_profile")
     object addExercise : AppDestination("add_exercise")
     object AllExercises : AppDestination("all_exercises")
+    object addRoutine : AppDestination("add_routine")
     object ExerciseDetail : AppDestination("exercise_detail/{exerciseId}") {
         fun createRoute(exerciseId: String) = "exercise_detail/$exerciseId"
     }

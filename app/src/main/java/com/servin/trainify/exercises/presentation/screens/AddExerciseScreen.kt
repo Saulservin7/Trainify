@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -52,6 +54,7 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel(),onNavigate
     val mediaList by viewModel.mediaList.collectAsState()
     val id by viewModel.id.collectAsState()
     val context = LocalContext.current
+    val isPublic by viewModel.isPublicState.collectAsState()
 
 
     val SportContextItems = listOf("Gym", "Fútbol", "Basquetbol")
@@ -133,6 +136,12 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel(),onNavigate
                 )
             }
 
+            Text("¿Hacer público el ejercicio?", modifier = Modifier.padding(bottom = 10.dp))
+            Switch(
+                checked = isPublic,
+                onCheckedChange = { viewModel.setIsPublic(it) }
+            )
+
 
 
         }
@@ -151,7 +160,8 @@ fun AddExerciseContent(viewModel: ExerciseViewModel = hiltViewModel(),onNavigate
                     description = description.value,
                     mediaUrls = mediaUris,  // Pasa la lista combinada
                     objective = objective.value,
-                    sportContext = sportContext.value
+                    sportContext = sportContext.value,
+                    isPublic = isPublic,
                 )
 
                 viewModel.addExercises(exercise, mediaUris, "")

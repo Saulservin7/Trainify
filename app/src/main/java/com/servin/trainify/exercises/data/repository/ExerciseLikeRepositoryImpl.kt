@@ -50,9 +50,10 @@ class ExerciseLikeRepositoryImpl @Inject constructor(private val firestore: Fire
             val newAverage = (average * ratingCount + exerciseLike.rating) / newRatingCount
             if (snapshot.exists()) {
                 val currentRating = snapshot.getDouble("rating") ?: 0.0
+                val safeRatingCount = if (ratingCount == 0L) 1L else ratingCount
                 exerciseRef.update(
                     mapOf(
-                        "average" to (average*ratingCount-currentRating+exerciseLike.rating)/ratingCount
+                        "average" to (average * ratingCount - currentRating + exerciseLike.rating) / safeRatingCount
                     )
                 ).await()
 

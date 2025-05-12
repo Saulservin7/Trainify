@@ -27,7 +27,13 @@ import androidx.compose.ui.text.style.TextAlign
 import com.servin.trainify.exercises.data.model.Exercise
 
 @Composable
-fun ExerciseGalleryGrouped(exercises: List<Exercise>,navigate:(String)->Unit) {
+fun ExerciseGalleryGrouped(
+    exercises: List<Exercise>,
+    isSelectable: Boolean = false,
+    onExerciseClick: (Exercise) -> Unit = {},
+    navigate: (String) -> Unit,
+    selectedIds: List<String> = emptyList()
+) {
     val grouped = exercises.groupBy { it.objective }
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -43,7 +49,14 @@ fun ExerciseGalleryGrouped(exercises: List<Exercise>,navigate:(String)->Unit) {
 
                     LazyRow {
                         items(exercisesInGroup) { exercise ->
-                            ExerciseCard(exercise,navigate = navigate)
+                            ExerciseCard(
+                                exercise = exercise,
+                                isSelected = selectedIds.contains(exercise.id),
+                                navigate = {
+                                    if (!isSelectable) navigate(exercise.id)
+                                    onExerciseClick(exercise)
+                                }
+                            )
                         }
                     }
                 }

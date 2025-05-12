@@ -13,6 +13,8 @@ import com.servin.trainify.profile.domain.repository.ProfileRepository
 import com.servin.trainify.profile.usecase.GetUserProfile
 import com.servin.trainify.profile.usecase.UpdateUserProfile
 import com.servin.trainify.profile.usecase.UploadPhotoUseCase
+import com.servin.trainify.routines.domain.repository.RoutinesRepository
+import com.servin.trainify.routines.usecase.AddRoutineUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -76,6 +78,16 @@ object UseCaseModule {
     @Provides
     fun provideGetExerciseLikeUseCase(exerciseLikeRespository: ExerciseLikeRespository): com.servin.trainify.exercises.usecase.GetExerciseLikeUseCase {
         return com.servin.trainify.exercises.usecase.GetExerciseLikeUseCase(exerciseLikeRespository)
+    }
+
+    @Provides
+    fun provideAddRoutineUseCase(routineRepositoy:RoutinesRepository): AddRoutineUseCase{
+        return  AddRoutineUseCase(routineRepositoy)
+    }
+
+    @Provides
+    fun provideGetRoutineUseCase(routineRepositoy:RoutinesRepository): com.servin.trainify.routines.usecase.GetRoutinesUseCase{
+        return  com.servin.trainify.routines.usecase.GetRoutinesUseCase(routineRepositoy)
     }
 
 }

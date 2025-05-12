@@ -124,7 +124,13 @@ fun ExerciseDetailContent(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically // <-- Esta línea es la clave
         ) {
-            TitleScreen(exercise.title, centerVertically = true)
+            TitleScreen(
+                title = if (exercise.title.length > 20)
+                    exercise.title.take(20) + "..."
+                else
+                    exercise.title,
+                centerVertically = true
+            )
 
             Ranking(
                 modifier = Modifier,

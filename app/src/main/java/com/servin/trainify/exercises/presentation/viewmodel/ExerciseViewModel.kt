@@ -25,7 +25,7 @@ import com.servin.trainify.auth.UserSessionManager
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
     private val addExerciseUseCase: AddExerciseUseCase,
-    private val userSessionManager: UserSessionManager
+    userSessionManager: UserSessionManager
 
 ):ViewModel() {
 
@@ -67,6 +67,13 @@ class ExerciseViewModel @Inject constructor(
     private val _stateExercise = MutableStateFlow<Result<Unit>>(Result.idle())
     val stateExercise: StateFlow<Result<Unit>> = _stateExercise
 
+    private val isPublic = MutableStateFlow(false)
+    val isPublicState: StateFlow<Boolean> = isPublic
+
+    fun setIsPublic(isPublic: Boolean) {
+        this.isPublic.value = isPublic
+    }
+
     fun setTitle(title: String) {
         val isError = !title.matches(Regex("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\s]+$"))
         _title.value = FormFieldState(title, isError)
@@ -106,6 +113,8 @@ class ExerciseViewModel @Inject constructor(
         return (exercise.title.isEmpty() || exercise.description.isEmpty() || exercise.id.isEmpty() || mediaUris.isEmpty() || exercise.objective.isEmpty() || exercise.sportContext.isEmpty())
                 || (_title.value.isError || _description.value.isError || _id.value.isError || _objective.value.isError || _sportContext.value.isError)
     }
+
+
 
     private fun getFileExtension(context: Context, uri: Uri): String? {
         return MimeTypeMap.getSingleton()

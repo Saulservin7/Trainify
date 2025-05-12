@@ -19,9 +19,11 @@ import com.servin.trainify.exercises.presentation.screens.ExerciseDetailScreen
 import com.servin.trainify.navigation.components.BottomBar
 import com.servin.trainify.presentation.screens.home.HomeScreen
 
+
 import com.servin.trainify.presentation.screens.settings.SettingsScreen
 import com.servin.trainify.profile.presentation.screens.EditProfileScreen
 import com.servin.trainify.profile.presentation.screens.ProfileScreen
+import com.servin.trainify.routines.presentation.views.AddRoutineScreen
 
 @Composable
 fun NavigationWrapper() {
@@ -72,7 +74,7 @@ fun NavigationWrapper() {
                     },
                     navigate = { navController.navigate(AppDestination.addExercise.route) },
                     allExercises = {
-                        navController.navigate(AppDestination.AllExercises.route)
+                        navController.navigate(AppDestination.addRoutine.route)
                     }
                 )
             }
@@ -112,6 +114,10 @@ fun NavigationWrapper() {
                 ExerciseDetailScreen(
                     exerciseId = exerciseId,
                 )
+            }
+
+            composable(AppDestination.addRoutine.route) {
+                AddRoutineScreen()
             }
         }
     }

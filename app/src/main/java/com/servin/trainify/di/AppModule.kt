@@ -14,6 +14,8 @@ import com.servin.trainify.exercises.domain.repository.ExerciseRepository
 import com.servin.trainify.navigation.NavigationManager
 import com.servin.trainify.profile.data.ProfileRepositoryImp
 import com.servin.trainify.profile.domain.repository.ProfileRepository
+import com.servin.trainify.routines.data.repository.RoutinesRepositoryImpl
+import com.servin.trainify.routines.domain.repository.RoutinesRepository
 
 import dagger.Module
 import dagger.Provides
@@ -74,6 +76,14 @@ object AppModule {
         firestore: FirebaseFirestore
     ): ExerciseLikeRespository {
         return ExerciseLikeRepositoryImpl(firestore)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRoutinesRepository(
+        firestore: FirebaseFirestore
+    ): RoutinesRepository {
+        return RoutinesRepositoryImpl(firestore)
     }
 
     @Provides

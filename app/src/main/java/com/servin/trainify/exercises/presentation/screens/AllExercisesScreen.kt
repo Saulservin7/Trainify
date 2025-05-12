@@ -42,8 +42,13 @@ fun AllExercisesScreen(viewModel: AllExercisesViewModel = hiltViewModel(),naviga
             ) {
                 TitleScreen("Ejercicios", modifier = Modifier.padding(16.dp))
 
-                // Aquí puedes mostrar la lista de ejercicios
-                ExerciseGalleryGrouped(exercises,navigate)
+
+                ExerciseGalleryGrouped(
+                    exercises = exercises,
+                    isSelectable = false,
+                    onExerciseClick = {},
+                    navigate = navigate
+                )
 
             }
 
