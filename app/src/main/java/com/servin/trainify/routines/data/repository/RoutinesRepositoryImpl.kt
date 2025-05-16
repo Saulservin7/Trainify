@@ -1,6 +1,9 @@
 package com.servin.trainify.routines.data.repository
 
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.servin.trainify.exercises.data.model.Exercise
+import com.servin.trainify.exercises.data.remote.ExerciseDto
 import com.servin.trainify.exercises.domain.model.Result
 import com.servin.trainify.routines.data.model.RoutinesDto
 import com.servin.trainify.routines.domain.model.Routines
@@ -35,5 +38,28 @@ class RoutinesRepositoryImpl @Inject constructor(
        }catch (e:Exception){
               Result.Error("Error getting Routines: ${e.message}")
        }
+    }
+
+    override suspend fun loadExercises(exercisesList: List<String>): Result<List<Exercise>> {
+        return try {
+            if (exercisesList.isEmpty()) return Result.success(emptyList())
+
+            val batches = exercisesList.chunked(10) // divide en grupos de 10
+            val allExercises = mutableListOf<Exercise>()
+
+            for (batch in batches) {
+                val snapshot = firestore.collection("exercises")
+                    .whereIn(FieldPath.documentId(), batch)
+                    .get()
+                    .await()
+
+                val exercises = snapshot.documents.mapNotNull { it.toObject(ExerciseDto::class.java)?.toDomain() }
+                allExercises.addAll(exercises)
+            }
+
+            Result.success(allExercises)
+        } catch (e: Exception) {
+            Result.Error("Error loading exercises: ${e.message}")
+        }
     }
 }

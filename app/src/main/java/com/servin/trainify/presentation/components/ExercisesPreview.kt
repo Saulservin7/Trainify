@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.servin.trainify.exercises.data.model.Exercise
 import com.servin.trainify.ui.theme.BluePrimary
 import kotlin.math.log
 
@@ -42,7 +43,7 @@ import kotlin.math.log
 @Composable
 fun ExercisesPreview(
     modifier: Modifier,
-    exercisesList: List<String> = emptyList(),
+    exercisesList: List<Exercise> = emptyList(),
     seriesList: List<String>,
     setSeries: (Int, String) -> Unit,
     repeticiones: String,
@@ -91,8 +92,10 @@ fun ExercisesPreview(
             itemSpacing = 10.dp
         ) { page ->
             Log.d("pagina para ver", page.toString())
+            val exercise = exercisesList[page]
+            val imageUrl = exercise.mediaUrls.firstOrNull()
             Column(modifier = Modifier.fillMaxWidth()) {
-                GalleryCard(null)
+                GalleryCard(imageUrl)
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

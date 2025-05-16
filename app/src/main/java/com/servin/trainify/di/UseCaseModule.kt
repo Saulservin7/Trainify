@@ -90,4 +90,9 @@ object UseCaseModule {
         return  com.servin.trainify.routines.usecase.GetRoutinesUseCase(routineRepositoy)
     }
 
+    @Provides
+    fun provideLoadExercisesUseCase(routineRepositoy:RoutinesRepository): com.servin.trainify.routines.usecase.LoadExercisesUseCase{
+        return  com.servin.trainify.routines.usecase.LoadExercisesUseCase(routineRepositoy)
+    }
+
 }

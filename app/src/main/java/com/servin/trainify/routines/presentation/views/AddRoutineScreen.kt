@@ -1,5 +1,6 @@
 package com.servin.trainify.routines.presentation.views
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,8 +15,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -63,6 +66,12 @@ fun AddRoutineContent(viewModel: RoutinesViewModel = hiltViewModel()) {
     val isWeight by viewModel.isWeight.collectAsState()
     val weight by viewModel.weight.collectAsState()
 
+    val exercisesList by viewModel.exercisesList.collectAsState()
+
+    val selected by viewModel.selectedExercises.collectAsState()
+
+
+
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (columnForm, buttonSave) = createRefs()
         Column(
@@ -96,9 +105,10 @@ fun AddRoutineContent(viewModel: RoutinesViewModel = hiltViewModel()) {
                 modifier = Modifier.fillMaxWidth()
 
             )
+            key(exercisesList) {
             ExercisesPreview(
                 modifier = Modifier.fillMaxWidth(),
-                exercisesList = listOf("1", "2", "3", "4", "5"),
+                exercisesList = exercisesList,
                 seriesList = series,
                 setSeries = { index, value -> viewModel.setSeries(index, value) },
                 repeticiones = repeticiones,
@@ -110,7 +120,7 @@ fun AddRoutineContent(viewModel: RoutinesViewModel = hiltViewModel()) {
                 weight = weight,
                 setWeight = { viewModel.setWeight(it) },
                 openModal = { showModal = true }
-            )
+            )}
             SelectableDaysChipsTwoRows()
 
             Text("¿Hacer público el ejercicio?", modifier = Modifier.padding(bottom = 10.dp))
